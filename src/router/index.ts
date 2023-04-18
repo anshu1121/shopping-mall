@@ -13,11 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/login/Login.vue'),
     beforeEnter: (to, from, next) => {
       const isLogin = localStorage.getItem('isLogin')
-      if (isLogin) {
-        next({ name: 'home' })
-      } else {
-        next()
-      }
+      isLogin ? next({ name: 'home' }) : next()
     }
   }
 ]
