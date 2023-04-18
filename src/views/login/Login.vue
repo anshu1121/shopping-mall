@@ -65,7 +65,7 @@ export default {
     background-color: #0091FF;
     color: #fff;
     text-align: center;
-    box-shadow: 0 .04rem .08rem 0;
+    box-shadow: 0 .04rem .08rem 0 rgba(0,145,255,0.32);;
     border-radius: .04rem;
   }
   .registry{

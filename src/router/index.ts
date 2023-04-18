@@ -1,16 +1,16 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Home from '@/views/home/Home.vue'
+import Login from '@/views/login/Login.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: () => import('@/views/home/Home.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/login/Login.vue'),
+    component: Login,
     beforeEnter: (to, from, next) => {
       const isLogin = localStorage.getItem('isLogin')
       isLogin ? next({ name: 'home' }) : next()
