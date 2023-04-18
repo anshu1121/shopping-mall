@@ -12,48 +12,48 @@
   </div>
   <!-- banner -->
   <div class="banner">
-    <img src="../../../assets/imgs/banner.jpg" alt="banner" />
+    <img src="@/assets/imgs/banner.jpg" alt="banner" />
   </div>
   <!-- 购物分类 -->
   <div class="shopping-type">
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/supermarket.png" alt="" />
+      <img src="@/assets/imgs/supermarket.png" />
       <p>超市便利</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/foodmarket.png" alt="" />
+      <img src="@/assets/imgs/foodmarket.png" />
       <p>菜市场</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/fruit.png" alt="" />
+      <img src="@/assets/imgs/fruit.png" />
       <p>水果店</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/flower.png" alt="" />
+      <img src="@/assets/imgs/flower.png" />
       <p>鲜花绿植</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/medicine.png" alt="" />
+      <img src="@/assets/imgs/medicine.png" />
       <p>医药健康</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/homefurnishing.png" alt="" />
+      <img src="@/assets/imgs/homefurnishing.png" />
       <p>家居时尚</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/cake.png" alt="" />
+      <img src="@/assets/imgs/cake.png" />
       <p>烘培蛋糕</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/signin.png" alt="" />
+      <img src="@/assets/imgs/signin.png" />
       <p>签到</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/majorsuit.png" alt="" />
+      <img src="@/assets/imgs/majorsuit.png" />
       <p>大牌免运</p>
     </div>
     <div class="shopping-type__item">
-      <img src="../../../assets/imgs/redenvelope.png" alt="" />
+      <img src="@/assets/imgs/redenvelope.png" />
       <p>红包套餐</p>
     </div>
   </div>
