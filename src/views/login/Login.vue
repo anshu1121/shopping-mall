@@ -3,15 +3,34 @@
     <img src="@/assets/imgs/user.png" alt="">
     <input type="text" placeholder="请输入手机号">
     <input type="password" name="" placeholder="请输入密码">
-    <div class="login-btn">登录</div>
+    <div class="login-btn" @click="loginHandler">登录</div>
     <div class="registry">
       <span>立即注册</span>
     </div>
   </div>
 </template>
 <script lang="ts">
+// import { useRouter } from 'vue-router' // vue3使用router方式
+import router from '@/router' // vue2使用router方式
+
 export default {
-  name: 'Login'
+  name: 'Login',
+  // setup () {
+  //   const router = useRouter()
+  //   function loginHandler () {
+  //     localStorage.isLogin = true
+  //     router.push({ name: 'home' })
+  //   }
+  //   return {
+  //     loginHandler
+  //   }
+  // },
+  methods: {
+    loginHandler () {
+      localStorage.isLogin = true
+      router.push({ name: 'home' })
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
