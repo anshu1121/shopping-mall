@@ -4,3 +4,7 @@ html{
 body{
   font-size: .12rem;
 }
+p{
+  margin: 0;
+  padding: 0;
+}
