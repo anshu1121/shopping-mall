@@ -1,12 +1,17 @@
 <template>
   <div class="docker">
     <div
-      v-for="tab of tabList"
+      v-for="(tab, index) in tabList"
       :key="tab.id"
-      class="docker__item"
+      :class="{
+        'docker__item': true,
+        'docker__item--active': index === 0 && true
+      }"
      >
-      <div class="iconfont" v-html="tab.icon"></div>
-      <div class="title">{{ tab.text }}</div>
+      <router-link to="/">
+        <div class="iconfont" v-html="tab.icon"></div>
+        <div class="title">{{ tab.text }}</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -19,22 +24,22 @@ export default {
         {
           icon: '&#xe674;',
           text: '首页',
-          id: '1001'
+          id: '/'
         },
         {
           icon: '&#xe600;',
           text: '购物车',
-          id: '1002'
+          id: 'cart'
         },
         {
           icon: '&#xe601;',
           text: '订单',
-          id: '1003'
+          id: 'order'
         },
         {
           icon: '&#xe604;',
           text: '我的',
-          id: '1004'
+          id: 'my'
         }
       ]
     }
@@ -58,15 +63,16 @@ export default {
     text-align: center;
     font-size: 0.2rem;
     color: #000;
+    a{
+      color: #000;
+      text-decoration: none;
+    }
     .iconfont {
       margin: 0.07rem 0 0.02rem 0;
     }
     .title {
       transform: scale(0.5, 0.5);
       transform-origin: center top;
-      a {
-        text-decoration: none;
-      }
     }
     &--active {
       color: #1fa4fc;
