@@ -20,7 +20,7 @@
 </template>
 <style lang="scss" scoped>
 .docker {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   display: flex;
@@ -29,6 +29,8 @@
   padding: 0 0.18rem;
   box-sizing: border-box;
   border-top: 0.01rem solid #f1f1f1;
+  background-color: #fff;
+  z-index: 99;
   &__item {
     flex: 1;
     text-align: center;
