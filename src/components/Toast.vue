@@ -4,8 +4,25 @@
   </div>
 </template>
 <script lang="ts">
+import { reactive } from 'vue'
+
 export default {
   name: 'Toast'
+}
+export function useToastEffect () {
+  const toastInfo = reactive({
+    isToastShow: false,
+    toastMsg: ''
+  })
+  function toast (message: string) {
+    toastInfo.isToastShow = true
+    toastInfo.toastMsg = message
+    setTimeout(() => {
+      toastInfo.isToastShow = false
+      toastInfo.toastMsg = ''
+    }, 2000)
+  }
+  return { toastInfo, toast }
 }
 </script>
 <style lang="scss" scoped>

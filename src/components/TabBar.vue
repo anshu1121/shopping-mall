@@ -16,33 +16,34 @@
   </div>
 </template>
 <script lang="ts">
+import { ref } from 'vue'
+
 export default {
   name: 'TabBar',
-  data () {
-    return {
-      tabList: [
-        {
-          icon: '&#xe674;',
-          text: '首页',
-          id: '/'
-        },
-        {
-          icon: '&#xe600;',
-          text: '购物车',
-          id: 'cart'
-        },
-        {
-          icon: '&#xe601;',
-          text: '订单',
-          id: 'order'
-        },
-        {
-          icon: '&#xe604;',
-          text: '我的',
-          id: 'my'
-        }
-      ]
-    }
+  setup () {
+    const tabList = ref([
+      {
+        icon: '&#xe674;',
+        text: '首页',
+        id: '/'
+      },
+      {
+        icon: '&#xe600;',
+        text: '购物车',
+        id: 'cart'
+      },
+      {
+        icon: '&#xe601;',
+        text: '订单',
+        id: 'order'
+      },
+      {
+        icon: '&#xe604;',
+        text: '我的',
+        id: 'my'
+      }
+    ])
+    return { tabList }
   }
 }
 </script>
