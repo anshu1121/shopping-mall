@@ -8,11 +8,13 @@
       <span>立即注册</span>
     </div>
   </div>
+  <Toast v-show="showToast">{{ toastMsg }}</Toast>
 </template>
 <script lang="ts">
 // import { useRouter } from 'vue-router' // vue3使用router方式
 import router from '@/router' // vue2使用router方式
 import { post } from '@/utils/request.js'
+import Toast from '@/components/Toast.vue'
 
 export default {
   name: 'Login',
@@ -26,27 +28,37 @@ export default {
   //     loginHandler
   //   }
   // },
+  components: { Toast },
   data () {
     return {
       userInfo: {
         username: '',
         password: ''
-      }
+      },
+      showToast: false,
+      toastMsg: ''
     }
   },
   methods: {
+    toast (message: string) {
+      this.showToast = true
+      this.toastMsg = message
+      setTimeout(() => {
+        this.showToast = false
+        this.toastMsg = ''
+      }, 2000)
+    },
     async loginHandler () {
       try {
         const res = await post('/api/login', this.userInfo)
-        const success = res?.success
-        if (success === 1) {
+        if (res.success === 1) {
           localStorage.isLogin = true
           router.push({ name: 'home' })
         } else {
-          alert('登录失败')
+          this.toast('登录失败')
         }
       } catch (err) {
-        alert('请求失败')
+        this.toast('请求失败')
       }
     }
   }
