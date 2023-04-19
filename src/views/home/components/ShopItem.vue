@@ -1,22 +1,23 @@
 <template>
   <div class="shop">
-    <img src="@/assets/imgs/near.png" alt="shop">
+    <img src="@/assets/imgs/near.png" alt="shop" />
     <div class="shop__content">
-      <div class="shop__content__name">沃尔玛</div>
+      <div class="shop__content__name">{{ shopInfo.name }}</div>
       <div class="shop__content__data">
-        <span>月售1万+</span>
-        <span>起送¥0</span>
-        <span>基础运费¥5</span>
+        <span>月售{{ shopInfo.sales }}</span>
+        <span>起送{{ shopInfo.expressLimit }}</span>
+        <span>基础运费{{ shopInfo.expressPrice }}</span>
       </div>
       <div class="shop__content__preferential">
-        VIP尊享满89元减4元运费券（每月3张）
+        {{ shopInfo.preferential }}
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 export default {
-  name: 'ShopItem'
+  name: 'ShopItem',
+  props: ['shopInfo']
 }
 </script>
 <style lang="scss" scoped>

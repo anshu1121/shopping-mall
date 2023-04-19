@@ -7,9 +7,19 @@ const instance = axios.create({
     'content-type': 'application/json'
   }
 })
-export const post = (url, params) => {
+export const post = (url, data) => {
   return new Promise((resolve, reject) => {
-    instance({ method: 'post', url, data: params })
+    instance.post(url, data)
+      .then(res => {
+        resolve(res?.data)
+      }, err => {
+        reject(err)
+      })
+  })
+}
+export const get = (url, params) => {
+  return new Promise((resolve, reject) => {
+    instance.get(url, { params })
       .then(res => {
         resolve(res?.data)
       }, err => {
