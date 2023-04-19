@@ -1,9 +1,8 @@
 .DS_Store
 node_modules
 /dist
-遇到的问题.doc
-~$遇到的问题.doc
-~WRL0001.tmp
+*.doc
+*.tmp
 
 # local env files
 .env.local

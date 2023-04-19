@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts">
-import ShopItem from './ShopItem.vue'
+import ShopItem from '@/components/ShopItem.vue'
 import { ref } from 'vue'
 import { get } from '@/utils/request.js'
 
@@ -19,7 +19,6 @@ function useShopListEffect () {
     try {
       const res = await get('/api/shops')
       if (res?.success === 1 && res?.data?.length) {
-        console.log(res)
         shopList.value = res.data || []
       }
     } catch (err) {

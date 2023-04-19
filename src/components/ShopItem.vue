@@ -1,15 +1,18 @@
 <template>
-  <div class="shop">
+  <div class="item">
     <img src="@/assets/imgs/near.png" alt="shop" />
-    <div class="shop__content">
-      <div class="shop__content__name">{{ shopInfo.name }}</div>
-      <div class="shop__content__data">
-        <span>月售{{ shopInfo.sales }}</span>
-        <span>起送{{ shopInfo.expressLimit }}</span>
-        <span>基础运费{{ shopInfo.expressPrice }}</span>
+    <div :class="{
+      'item__content': true,
+      'item__content-borderd': borderd
+    }">
+      <div class="item__content__name">{{ shopInfo?.name || '???' }}</div>
+      <div class="item__content__data">
+        <span>月售{{ shopInfo?.sales }}</span>
+        <span>起送{{ shopInfo?.expressLimit }}</span>
+        <span>基础运费{{ shopInfo?.expressPrice }}</span>
       </div>
-      <div class="shop__content__preferential">
-        {{ shopInfo.preferential }}
+      <div class="item__content__preferential">
+        {{ shopInfo?.preferential || '???' }}
       </div>
     </div>
   </div>
@@ -17,12 +20,18 @@
 <script lang="ts">
 export default {
   name: 'ShopItem',
-  props: ['shopInfo']
+  props: {
+    shopInfo: Object,
+    borderd: {
+      type: Boolean,
+      default: true
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
   @import '@/assets/variable.scss';
-  .shop {
+  .item {
     display: flex;
     flex-direction: row;
     margin-top: .14rem;
@@ -36,7 +45,6 @@ export default {
       padding-bottom: .04rem;
       font-size: .13rem;
       // color: $font-color;
-      border-bottom: 1px solid #F1F1F1;
       >div{
         margin-bottom: .08rem;
       }
@@ -52,6 +60,9 @@ export default {
       &__preferential{
         color: #E93B3B;
       }
+    }
+    &__content-borderd{
+      border-bottom: 1px solid #F1F1F1;
     }
   }
 </style>
