@@ -1,8 +1,8 @@
 <template>
   <div class="login container">
     <img src="@/assets/imgs/user.png" alt="">
-    <input type="text" placeholder="请输入手机号">
-    <input type="password" name="" placeholder="请输入密码">
+    <input type="text" placeholder="请输入用户名" v-model="userInfo.username">
+    <input type="password" placeholder="请输入密码"  v-model="userInfo.password">
     <div class="login-btn" @click="loginHandler">登录</div>
     <div class="registry">
       <span>立即注册</span>
@@ -12,6 +12,7 @@
 <script lang="ts">
 // import { useRouter } from 'vue-router' // vue3使用router方式
 import router from '@/router' // vue2使用router方式
+import { post } from '@/utils/request.js'
 
 export default {
   name: 'Login',
@@ -25,10 +26,28 @@ export default {
   //     loginHandler
   //   }
   // },
+  data () {
+    return {
+      userInfo: {
+        username: '',
+        password: ''
+      }
+    }
+  },
   methods: {
-    loginHandler () {
-      localStorage.isLogin = true
-      router.push({ name: 'home' })
+    async loginHandler () {
+      try {
+        const res = await post('/api/login', this.userInfo)
+        const success = res?.success
+        if (success === 1) {
+          localStorage.isLogin = true
+          router.push({ name: 'home' })
+        } else {
+          alert('登录失败')
+        }
+      } catch (err) {
+        alert('请求失败')
+      }
     }
   }
 }
