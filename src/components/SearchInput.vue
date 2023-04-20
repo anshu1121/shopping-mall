@@ -34,10 +34,12 @@ export default {
     font-size: 0.14rem;
     border: none;
     background: none;
-
     &:focus {
       border: none;
       outline: none;
+    }
+    &::placeholder {
+      color: #333;
     }
   }
 }</style>

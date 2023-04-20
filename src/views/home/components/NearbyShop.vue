@@ -1,11 +1,15 @@
 <template>
   <div class="nearby">
     <p>附近店铺</p>
-    <ShopItem
+    <router-link
       v-for="item in shopList"
       :key="item._id"
-      :shopInfo="item"
-    />
+      :to="`/shop/${item._id}`"
+    >
+      <ShopItem
+        :shopInfo="item"
+      />
+    </router-link>
   </div>
 </template>
 <script lang="ts">
@@ -47,6 +51,9 @@ export default {
   p {
     font-family: PingFangSC-Medium;
     font-size: 18px;
+  }
+  a{
+    text-decoration: none;
   }
 }
 </style>

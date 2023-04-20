@@ -1,31 +1,74 @@
 <template>
   <div class="shop">
-    <div class="search">
-      <div class="iconfont back">&#xe8b5;</div>
+    <div class="shop__search">
+      <div class="iconfont back" @click="goBack">&#xe8b5;</div>
       <SearchInput :placeholder="'请输入商品名称搜索'" />
     </div>
-    <ShopItem :borderd="false" />
+    <ShopItem :shop-info="shopInfo" :borderd="false" v-show="shopInfo.name" />
+    <ShopContent />
   </div>
 </template>
 <script lang="ts">
 import SearchInput from '@/components/SearchInput.vue'
 import ShopItem from '@/components/ShopItem.vue'
+import ShopContent from './components/ShopContent.vue'
+
+import { reactive, toRefs } from 'vue'
+import { get } from '@/utils/request.js'
+import { useRoute, useRouter } from 'vue-router'
+
+// 返回
+function useGoBackEffect () {
+  const router = useRouter()
+  function goBack () {
+    router.back()
+  }
+  return goBack
+}
+
+// 获取商店数据
+function useShopInfoEffect () {
+  const data = reactive({
+    shopInfo: {}
+  })
+  const route = useRoute()
+  async function getShopInfo () {
+    try {
+      const id = route.params.id
+      const res = await get(`/api/shop/${id}`)
+      if (res.success === 1) {
+        data.shopInfo = res.data
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const { shopInfo } = toRefs(data)
+  return { shopInfo, getShopInfo }
+}
 
 export default {
   name: 'Shop',
-  components: { SearchInput, ShopItem }
+  components: { SearchInput, ShopItem, ShopContent },
+  setup () {
+    const goBack = useGoBackEffect()
+    const { shopInfo, getShopInfo } = useShopInfoEffect()
+    getShopInfo()
+    return { shopInfo, goBack }
+  }
 }
 </script>
 <style lang="scss" scoped>
 .shop{
   padding: .16rem .18rem 0;
-  .search{
+  &__search{
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: .16rem;
     .iconfont{
-      font-size: .21rem;
+      font-size: .27rem;
+      color: #b6b6b6;
     }
   }
 }

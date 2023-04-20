@@ -5,14 +5,14 @@
       'item__content': true,
       'item__content-borderd': borderd
     }">
-      <div class="item__content__name">{{ shopInfo?.name || '???' }}</div>
+      <div class="item__content__name">{{ shopInfo?.name }}</div>
       <div class="item__content__data">
         <span>月售{{ shopInfo?.sales }}</span>
         <span>起送{{ shopInfo?.expressLimit }}</span>
         <span>基础运费{{ shopInfo?.expressPrice }}</span>
       </div>
       <div class="item__content__preferential">
-        {{ shopInfo?.preferential || '???' }}
+        {{ shopInfo?.preferential }}
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '@/assets/variable.scss';
+@import '@/assets/variable.scss';
   .item {
     display: flex;
     flex-direction: row;
@@ -44,12 +44,13 @@ export default {
       margin-left: .16rem;
       padding-bottom: .04rem;
       font-size: .13rem;
-      // color: $font-color;
+      line-height: .18rem;
       >div{
         margin-bottom: .08rem;
       }
       &__name{
         font-size: .16rem;
+        line-height: .22rem;
       }
       &__data{
         span{
@@ -62,7 +63,7 @@ export default {
       }
     }
     &__content-borderd{
-      border-bottom: 1px solid #F1F1F1;
+      border-bottom: $border;
     }
   }
 </style>

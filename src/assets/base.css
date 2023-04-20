@@ -2,7 +2,9 @@ html{
   font-size: 100px;
 }
 body{
+  font-family: PingFangSC-Regular;
   font-size: .12rem;
+  color: #333;
 }
 p{
   margin: 0;
@@ -14,4 +16,12 @@ input{
 input:focus{
   border: none;
   outline: none;
+}
+ul,li{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a{
+  color: #333;
 }
