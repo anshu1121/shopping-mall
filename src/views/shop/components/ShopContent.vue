@@ -1,23 +1,25 @@
 <template>
   <div class="content">
     <ul class="category">
-      <li class="category__item--active">全部商品</li>
-      <li>秒杀</li>
-      <li>新鲜水果</li>
-      <li>休闲食品</li>
-      <li>时令蔬菜</li>
-      <li>肉蛋家禽</li>
+      <li
+        :class="{ 'category__item--active': currentTab === item.tab}"
+        v-for="item in categories"
+        :key="item.tab"
+        @click="() => handleCategoryClick(item.tab)"
+      >
+        {{ item.name }}
+      </li>
     </ul>
     <div class="product">
-      <div class="product__item">
+      <div class="product__item" v-for="product in productList" :key="product._id">
         <img src="@/assets/imgs/ningmeng.png" alt="">
         <div class="product__item__detail">
-          <p class="name">番茄250g/份</p>
-          <p class="sale">月售10件</p>
+          <p class="name">{{ product.name }}</p>
+          <p class="sale">月售{{ product.sales }}件</p>
           <p class="price">
             <span class="price__yen">&yen;</span>
-            <span>33.6</span>
-            <span class="price__origin">¥33.6</span>
+            <span>{{ product.price }}</span>
+            <span class="price__origin">&yen;{{ product.oldPrice }}</span>
           </p>
         </div>
         <NumberController />
@@ -26,11 +28,57 @@
   </div>
 </template>
 <script lang="ts">
+import { reactive, ref, toRefs, watchEffect } from 'vue'
 import NumberController from './NumberController.vue'
+import { get } from '@/utils/request.js'
+import { useRoute } from 'vue-router'
+
+const categories = [
+  { name: '全部商品', tab: 'all' },
+  { name: '新鲜水果', tab: 'fruit' }
+]
+
+// tab切换逻辑
+function useCatetoriesEffect () {
+  const currentTab = ref(categories[0].tab)
+  function handleCategoryClick (tab) {
+    currentTab.value = tab
+  }
+  return { currentTab, handleCategoryClick }
+}
+
+// product列表相关逻辑
+function useProductListEffect (currentTab) {
+  const data = reactive({
+    list: []
+  })
+  const shopId = useRoute().params.id
+  async function getProductList () {
+    try {
+      const res = await get(`/api/shop/${shopId}/product`, { tab: currentTab.value })
+      if (res.success === 1) {
+        data.list = res.data
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  watchEffect(() => {
+    getProductList() // getProductList()方法中依赖的tab发生变化，自动执行
+  })
+  const { list } = toRefs(data)
+  return { productList: list, getProductList }
+}
 
 export default {
   name: 'ShopContent',
-  components: { NumberController }
+  components: { NumberController },
+  setup () {
+    const { currentTab, handleCategoryClick } = useCatetoriesEffect()
+    const { productList, getProductList } = useProductListEffect(currentTab)
+
+    return { categories, currentTab, handleCategoryClick, productList, getProductList }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -69,12 +117,14 @@ export default {
     flex: 1;
     margin: 0 .16rem;
     overflow-y: auto;
+
     &__item {
       position: relative;
       display: flex;
       flex-direction: row;
       padding: .12rem 0;
       border-bottom: $border;
+
       img {
         width: 0.68rem;
         height: 0.68rem;
@@ -84,6 +134,7 @@ export default {
         flex: 1;
         margin-left: 0.16rem;
         overflow-x: hidden;
+
         p {
           margin-bottom: 0.06rem;
 
@@ -107,12 +158,15 @@ export default {
           color: #e93b3b;
           font-size: .14rem;
           line-height: .2rem;
-          >span{
+
+          >span {
             display: inline-block;
           }
-          &__yen{
+
+          &__yen {
             font-size: .1rem;
           }
+
           &__origin {
             display: inline-block;
             margin-left: 0.06rem;
@@ -127,4 +181,5 @@ export default {
       }
     }
   }
-}</style>
+}
+</style>
