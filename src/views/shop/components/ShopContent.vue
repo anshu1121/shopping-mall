@@ -155,7 +155,7 @@ export default {
         }
 
         .price {
-          color: #e93b3b;
+          color: $redColor;
           font-size: .14rem;
           line-height: .2rem;
 

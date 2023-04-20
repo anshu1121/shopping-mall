@@ -47,9 +47,7 @@ export default {
 @import '@/assets/variable.scss';
 .nearby {
   margin-top: .16rem;
-  color: $font-color;
   p {
-    font-family: PingFangSC-Medium;
     font-size: 18px;
   }
   a{

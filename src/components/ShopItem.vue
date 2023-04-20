@@ -59,7 +59,7 @@ export default {
         }
       }
       &__preferential{
-        color: #E93B3B;
+        color: $redColor;
       }
     }
     &__content-borderd{

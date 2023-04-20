@@ -6,16 +6,18 @@
     </div>
     <ShopItem :shop-info="shopInfo" :borderd="false" v-show="shopInfo.name" />
     <ShopContent />
+    <Cart />
   </div>
 </template>
 <script lang="ts">
 import SearchInput from '@/components/SearchInput.vue'
 import ShopItem from '@/components/ShopItem.vue'
 import ShopContent from './components/ShopContent.vue'
+import Cart from './components/Cart.vue'
 
 import { reactive, toRefs } from 'vue'
-import { get } from '@/utils/request.js'
 import { useRoute, useRouter } from 'vue-router'
+import { get } from '@/utils/request.js'
 
 // 返回
 function useGoBackEffect () {
@@ -49,7 +51,7 @@ function useShopInfoEffect () {
 
 export default {
   name: 'Shop',
-  components: { SearchInput, ShopItem, ShopContent },
+  components: { SearchInput, ShopItem, ShopContent, Cart },
   setup () {
     const goBack = useGoBackEffect()
     const { shopInfo, getShopInfo } = useShopInfoEffect()
