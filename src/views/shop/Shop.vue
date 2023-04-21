@@ -9,7 +9,7 @@
     <Cart />
   </div>
 </template>
-<script lang="ts">
+<script>
 import SearchInput from '@/components/SearchInput.vue'
 import ShopItem from '@/components/ShopItem.vue'
 import ShopContent from './components/ShopContent.vue'

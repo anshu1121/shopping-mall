@@ -22,59 +22,25 @@
             <span class="price__origin">&yen;{{ product.oldPrice }}</span>
           </p>
         </div>
-        <NumberController />
+        <CountController  />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { reactive, ref, toRefs, watchEffect } from 'vue'
-import NumberController from './NumberController.vue'
-import { get } from '@/utils/request.js'
-import { useRoute } from 'vue-router'
+import CountController from './CountController.vue'
+import { useCatetoriesEffect, useProductListEffect } from '../effects.js'
 
-const categories = [
+export const categories = [
   { name: '全部商品', tab: 'all' },
   { name: '新鲜水果', tab: 'fruit' }
 ]
 
-// tab切换逻辑
-function useCatetoriesEffect () {
-  const currentTab = ref(categories[0].tab)
-  function handleCategoryClick (tab) {
-    currentTab.value = tab
-  }
-  return { currentTab, handleCategoryClick }
-}
-
-// product列表相关逻辑
-function useProductListEffect (currentTab) {
-  const data = reactive({
-    list: []
-  })
-  const shopId = useRoute().params.id
-  async function getProductList () {
-    try {
-      const res = await get(`/api/shop/${shopId}/product`, { tab: currentTab.value })
-      if (res.success === 1) {
-        data.list = res.data
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  watchEffect(() => {
-    getProductList() // getProductList()方法中依赖的tab发生变化，自动执行
-  })
-  const { list } = toRefs(data)
-  return { productList: list, getProductList }
-}
-
 export default {
   name: 'ShopContent',
-  components: { NumberController },
+  components: { CountController },
   setup () {
-    const { currentTab, handleCategoryClick } = useCatetoriesEffect()
+    const { currentTab, handleCategoryClick } = useCatetoriesEffect(categories)
     const { productList, getProductList } = useProductListEffect(currentTab)
 
     return { categories, currentTab, handleCategoryClick, productList, getProductList }

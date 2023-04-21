@@ -9,7 +9,7 @@
 import { ref } from 'vue'
 
 export default {
-  name: 'NumberController',
+  name: 'CountController',
   setup () {
     const number = ref(0)
     return { number }
