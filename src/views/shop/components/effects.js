@@ -1,10 +1,10 @@
 import { useRoute } from 'vue-router'
-import { reactive, ref, toRefs, watchEffect } from 'vue'
+import { reactive, ref, toRefs } from 'vue'
 import { get } from '@/utils/request.js'
 
 // 左侧categories tab切换逻辑
-export function useCatetoriesEffect (tabList) {
-  const currentTab = ref(tabList[0].tab)
+export function useCatetoriesEffect (categories) {
+  const currentTab = ref(categories[0].tab)
   function handleCategoryClick (tab) {
     currentTab.value = tab
   }
@@ -27,10 +27,7 @@ export function useProductListEffect (currentTab) {
       console.log(err)
     }
   }
-  watchEffect(() => {
-    // 切换category tab时，getProductList()方法中依赖的tab发生变化，自动执行
-    getProductList()
-  })
+
   const { list } = toRefs(data)
   return { productList: list, getProductList }
 }

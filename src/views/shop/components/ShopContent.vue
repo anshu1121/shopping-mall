@@ -28,8 +28,9 @@
   </div>
 </template>
 <script lang="ts">
+import { watchEffect } from 'vue'
 import CountController from './CountController.vue'
-import { useCatetoriesEffect, useProductListEffect } from '../effects.js'
+import { useCatetoriesEffect, useProductListEffect } from './effects.js'
 
 export const categories = [
   { name: '全部商品', tab: 'all' },
@@ -42,8 +43,16 @@ export default {
   setup () {
     const { currentTab, handleCategoryClick } = useCatetoriesEffect(categories)
     const { productList, getProductList } = useProductListEffect(currentTab)
-
-    return { categories, currentTab, handleCategoryClick, productList, getProductList }
+    watchEffect(() => {
+      // 切换category tab时，getProductList()方法中依赖的tab发生变化，自动执行
+      getProductList()
+    })
+    return {
+      categories, // 商品种类
+      currentTab, // 当前选中的商品种类tab
+      handleCategoryClick, // 商品种类tab点击事件
+      productList // 商品列表数据
+    }
   }
 }
 </script>
