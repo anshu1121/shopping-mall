@@ -16,6 +16,8 @@ export default {
   //     tabShow: true
   //   }
   // },
+
+  // 在App获取当前路由名称
   // 第一种，使用computed和this.$route.name
   computed: {
     isShow () {
