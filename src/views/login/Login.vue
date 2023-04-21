@@ -1,44 +1,57 @@
 <template>
   <div class="login container">
     <img src="@/assets/imgs/user.png" alt="">
-    <input type="text" placeholder="请输入手机号">
-    <input type="password" name="" placeholder="请输入密码">
+    <input type="text" placeholder="请输入用户名" v-model="username">
+    <input type="password" placeholder="请输入密码"  v-model="password">
     <div class="login-btn" @click="loginHandler">登录</div>
     <div class="registry">
       <span>立即注册</span>
     </div>
   </div>
+  <Toast v-show="toastInfo.isToastShow">{{ toastInfo.toastMsg }}</Toast>
 </template>
 <script lang="ts">
-// import { useRouter } from 'vue-router' // vue3使用router方式
-import router from '@/router' // vue2使用router方式
+import { useRouter } from 'vue-router' // vue3使用router方式
+import { post } from '@/utils/request.js'
+import Toast, { useToastEffect } from '@/components/Toast.vue'
+import { reactive, toRefs } from 'vue'
 
 export default {
   name: 'Login',
-  // setup () {
-  //   const router = useRouter()
-  //   function loginHandler () {
-  //     localStorage.isLogin = true
-  //     router.push({ name: 'home' })
-  //   }
-  //   return {
-  //     loginHandler
-  //   }
-  // },
-  methods: {
-    loginHandler () {
-      localStorage.isLogin = true
-      router.push({ name: 'home' })
+  components: { Toast },
+  setup () {
+    const router = useRouter()
+    const userInfo = reactive({
+      username: '',
+      password: ''
+    })
+    const { toastInfo, toast } = useToastEffect()
+    async function loginHandler () {
+      try {
+        const res = await post('/api/login', userInfo)
+        if (res.success === 1) {
+          localStorage.isLogin = true
+          router.push({ name: 'home' })
+        } else {
+          toast('登录失败')
+        }
+      } catch (err) {
+        toast('请求失败')
+      }
     }
+    const { username, password } = toRefs(userInfo)
+    return { toastInfo, username, password, loginHandler }
   }
 }
 </script>
 <style lang="scss" scoped>
 .container{
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 1.4rem .4rem 0;
+  padding: 0 .4rem;
   text-align: center;
   font-size: .16rem;
   img{
@@ -65,7 +78,7 @@ export default {
     background-color: #0091FF;
     color: #fff;
     text-align: center;
-    box-shadow: 0 .04rem .08rem 0;
+    box-shadow: 0 .04rem .08rem 0 rgba(0,145,255,0.32);;
     border-radius: .04rem;
   }
   .registry{

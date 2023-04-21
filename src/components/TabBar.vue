@@ -16,37 +16,39 @@
   </div>
 </template>
 <script lang="ts">
+import { ref } from 'vue'
+
 export default {
   name: 'TabBar',
-  data () {
-    return {
-      tabList: [
-        {
-          icon: '&#xe674;',
-          text: '首页',
-          id: '/'
-        },
-        {
-          icon: '&#xe600;',
-          text: '购物车',
-          id: 'cart'
-        },
-        {
-          icon: '&#xe601;',
-          text: '订单',
-          id: 'order'
-        },
-        {
-          icon: '&#xe604;',
-          text: '我的',
-          id: 'my'
-        }
-      ]
-    }
+  setup () {
+    const tabList = ref([
+      {
+        icon: '&#xe674;',
+        text: '首页',
+        id: '/'
+      },
+      {
+        icon: '&#xe600;',
+        text: '购物车',
+        id: 'cart'
+      },
+      {
+        icon: '&#xe601;',
+        text: '订单',
+        id: 'order'
+      },
+      {
+        icon: '&#xe604;',
+        text: '我的',
+        id: 'my'
+      }
+    ])
+    return { tabList }
   }
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/variable.scss';
 .docker {
   position: fixed;
   left: 0;
@@ -56,7 +58,7 @@ export default {
   height: 0.5rem;
   padding: 0 0.18rem;
   box-sizing: border-box;
-  border-top: 0.01rem solid #f1f1f1;
+  border-top: $border;
   background-color: #fff;
   &__item {
     flex: 1;
