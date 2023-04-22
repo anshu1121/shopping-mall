@@ -46,10 +46,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container{
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 1.4rem .4rem 0;
+  padding: 0 .4rem;
   text-align: center;
   font-size: .16rem;
   img{

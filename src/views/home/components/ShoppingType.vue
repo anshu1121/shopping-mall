@@ -6,10 +6,7 @@
     <span class="iconfont">&#xe64a;</span>
   </div>
   <!-- 搜索框 -->
-  <div class="search">
-    <span class="iconfont">&#xe65c;</span>
-    <input type="text" placeholder="山姆会员商店优惠商品" />
-  </div>
+  <SearchInput :placeholder="'山姆会员商店优惠商品'" />
   <!-- banner -->
   <div class="banner">
     <img src="@/assets/imgs/banner.jpg" alt="banner" />
@@ -59,6 +56,13 @@
   </div>
   <div class="gap"></div>
 </template>
+<script lang="ts">
+import SearchInput from '@/components/SearchInput.vue'
+
+export default {
+  components: { SearchInput }
+}
+</script>
 <style lang="scss" scoped>
 .position {
   display: flex;
@@ -73,31 +77,6 @@
   }
   .iconfont {
     font-size: 0.19rem;
-  }
-}
-.search {
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  width: 100%;
-  height: 0.32rem;
-  padding: 0 0.16rem;
-  border-radius: 0.16rem;
-  background-color: #f5f5f5;
-  .iconfont {
-    font-size: 0.16rem;
-    color: #b7b7b7;
-  }
-  input {
-    flex: 1;
-    margin-left: 0.12rem;
-    font-size: 0.14rem;
-    border: none;
-    background: none;
-    &:focus {
-      border: none;
-      outline: none;
-    }
   }
 }
 .banner {

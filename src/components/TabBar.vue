@@ -48,6 +48,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/variable.scss';
 .docker {
   position: fixed;
   left: 0;
@@ -57,7 +58,7 @@ export default {
   height: 0.5rem;
   padding: 0 0.18rem;
   box-sizing: border-box;
-  border-top: 0.01rem solid #f1f1f1;
+  border-top: $border;
   background-color: #fff;
   &__item {
     flex: 1;

@@ -1,15 +1,19 @@
 <template>
   <div class="nearby">
     <p>附近店铺</p>
-    <ShopItem
+    <router-link
       v-for="item in shopList"
       :key="item._id"
-      :shopInfo="item"
-    />
+      :to="`/shop/${item._id}`"
+    >
+      <ShopItem
+        :shopInfo="item"
+      />
+    </router-link>
   </div>
 </template>
 <script lang="ts">
-import ShopItem from './ShopItem.vue'
+import ShopItem from '@/components/ShopItem.vue'
 import { ref } from 'vue'
 import { get } from '@/utils/request.js'
 
@@ -19,7 +23,6 @@ function useShopListEffect () {
     try {
       const res = await get('/api/shops')
       if (res?.success === 1 && res?.data?.length) {
-        console.log(res)
         shopList.value = res.data || []
       }
     } catch (err) {
@@ -44,10 +47,11 @@ export default {
 @import '@/assets/variable.scss';
 .nearby {
   margin-top: .16rem;
-  color: $font-color;
   p {
-    font-family: PingFangSC-Medium;
     font-size: 18px;
+  }
+  a{
+    text-decoration: none;
   }
 }
 </style>
