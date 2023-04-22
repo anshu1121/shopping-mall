@@ -1,20 +1,55 @@
 <template>
   <div class="cart">
     <div class="settlement">
-      <div class="iconfont settlement__number">
+      <div class="iconfont settlement__count">
         &#xe6ca;
-        <span>1</span>
+        <span v-show="totalCount">{{ totalCount }}</span>
       </div>
-      <div class="settlement__total">
-        总计：<span>&yen;128</span>
+      <div class="settlement__total" v-show="totalCount">
+        总计：<span>&yen;{{ totalPrice }}</span>
       </div>
+      <div class="settlement__empty" v-show="!totalCount">购物车是空的</div>
       <div class="settlement__pay">去结算</div>
     </div>
   </div>
 </template>
-<script lang="ts">
+<script>
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
-  name: 'Cart'
+  name: 'Cart',
+  setup () {
+    const store = useStore()
+    const route = useRoute()
+    const shopId = route.params.shopId // 商店id string
+    // 购物车中的商品总数
+    const totalCount = computed(() => {
+      const cartData = store.state.cartData // 购物车中的数据 object
+      const productList = cartData[shopId] // 商品数据object
+      let count = 0
+      for (const product in productList) {
+        count += productList[product].count
+      }
+      return count
+    })
+
+    // 购物车中的商品总价
+    const totalPrice = computed(() => {
+      const cartData = store.state.cartData // 购物车中的数据 object
+      const productList = cartData[shopId] // 当前商店下商品的数据object
+      let price = 0
+      for (const product in productList) {
+        const productPrice = +productList[product].price
+        const productCocunt = +productList[product].count
+        price += productPrice * productCocunt
+      }
+      return price.toFixed(2)
+    })
+
+    return { totalCount, totalPrice }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -32,7 +67,7 @@ export default {
   align-items: center;
   box-shadow: 0 -1px 1px 0 #F1F1F1;
 
-  &__number {
+  &__count {
     position: relative;
     margin-left: .24rem;
     width: .28rem;
@@ -70,7 +105,10 @@ export default {
       color: $redColor;
     }
   }
-
+  &__empty {
+    flex: 1;
+    margin-left: .32rem
+  }
   &__pay {
     width: .98rem;
     height: .49rem;

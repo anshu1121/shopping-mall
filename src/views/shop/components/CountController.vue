@@ -1,18 +1,47 @@
 <template>
   <div class="controller">
-    <div class="iconfont reduce" @click="number--" v-show="number !== 0">&#xe8b1;</div>
-    <p v-show="number !== 0">{{ number }}</p>
-    <div class="iconfont add" @click="number ++">&#xe728;</div>
+    <div class="iconfont reduce" @click="handleSubtract" v-show="count">&#xe8b1;</div>
+    <p v-show="count">{{ count }}</p>
+    <div class="iconfont add" @click="handleIncrease">&#xe728;</div>
   </div>
 </template>
-<script lang="ts">
-import { ref } from 'vue'
+<script>
+import { reactive, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+
+// 添加/减少商品相关的逻辑
+function useCountEffect (product) {
+  const route = useRoute()
+  const store = useStore()
+  const cartData = store.state.cartData
+  const shopId = route.params.shopId
+  const productId = product._id
+  // 商品数量
+  const count = computed(() => cartData?.[shopId]?.[productId]?.count)
+  // 添加商品
+  function handleIncrease () {
+    store.commit('handleIncrease', {
+      shopId, productId, product
+    })
+  }
+  // 减少商品
+  function handleSubtract () {
+    store.commit('handleSubtract', {
+      shopId, productId
+    })
+  }
+
+  return { count, handleIncrease, handleSubtract }
+}
 
 export default {
   name: 'CountController',
-  setup () {
-    const number = ref(0)
-    return { number }
+  props: ['product'],
+  setup (props) {
+    const product = reactive(props.product)
+    const { count, handleIncrease, handleSubtract } = useCountEffect(product)
+    return { count, handleIncrease, handleSubtract }
   }
 }
 </script>
