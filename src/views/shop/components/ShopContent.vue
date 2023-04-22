@@ -22,7 +22,7 @@
             <span class="price__origin">&yen;{{ product.oldPrice }}</span>
           </p>
         </div>
-        <CountController  />
+        <CountController :product="product"  />
       </div>
     </div>
   </div>

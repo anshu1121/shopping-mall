@@ -1,18 +1,41 @@
 <template>
   <div class="controller">
-    <div class="iconfont reduce" @click="number--" v-show="number !== 0">&#xe8b1;</div>
-    <p v-show="number !== 0">{{ number }}</p>
-    <div class="iconfont add" @click="number ++">&#xe728;</div>
+    <div class="iconfont reduce" @click="handleSubtract" v-show="true">&#xe8b1;</div>
+    <p v-show="true">{{ count || 0 }}</p>
+    <div class="iconfont add" @click="handleIncrease">&#xe728;</div>
   </div>
 </template>
-<script lang="ts">
-import { ref } from 'vue'
+<script>
+import { reactive, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore, mapState } from 'vuex'
+
+function useCountEffect (product) {
+  const route = useRoute()
+  const store = useStore()
+  const cartData = store.state.cartData
+  const shopId = route.params.shopId
+  const productId = product._id
+
+  const count = computed(() => cartData?.[shopId]?.[productId]?.count)
+  function handleIncrease () {
+    store.commit('handleIncrease', {
+      shopId, productId, product
+    })
+  }
+  function handleSubtract () {
+    console.log('subtract')
+  }
+  return { count, handleIncrease, handleSubtract }
+}
 
 export default {
   name: 'CountController',
-  setup () {
-    const number = ref(0)
-    return { number }
+  props: ['product'],
+  setup (props) {
+    const product = reactive(props.product)
+    const { count, handleIncrease, handleSubtract } = useCountEffect(product)
+    return { count, handleIncrease, handleSubtract }
   }
 }
 </script>

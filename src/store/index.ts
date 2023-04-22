@@ -19,7 +19,27 @@ export default createStore({
     }
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    handleIncrease (state, params) {
+      const { shopId, productId, product } = params
+      let shopInfo = state.cartData[shopId]
+      // 如果这个shopId下没有shopInfo，就新建一个空shopInfo
+      if (!shopInfo) shopInfo = {}
+      let productInfo = shopInfo[productId]
+
+      // 如果这个productId下没有productInfo,就把productInfo赋值为传进来的prodcuct，并且初始数量值设置为0
+      if (!productInfo) {
+        productInfo = product
+        productInfo.count = 0
+      }
+      // 商品数量+1
+      productInfo.count += 1
+      // 为shopInfo添加productInfo
+      shopInfo[productId] = productInfo
+      // 为cartData添加shopInfo
+      state.cartData[shopId] = shopInfo
+    }
+  },
   actions: {},
   modules: {}
 })

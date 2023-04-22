@@ -36,8 +36,8 @@ function useShopInfoEffect () {
   const route = useRoute()
   async function getShopInfo () {
     try {
-      const id = route.params.id
-      const res = await get(`/api/shop/${id}`)
+      const shopId = route.params.shopId
+      const res = await get(`/api/shop/${shopId}`)
       if (res.success === 1) {
         data.shopInfo = res.data
       }
