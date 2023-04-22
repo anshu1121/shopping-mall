@@ -46,6 +46,7 @@ export default createStore({
       const cartData = state.cartData
       const productInfo = cartData[shopId][productId]
       productInfo.count -= 1
+      // if (productInfo.count === 0) productInfo = undefined
       cartData[shopId][productId] = productInfo
     }
   },
