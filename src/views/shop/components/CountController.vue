@@ -1,31 +1,37 @@
 <template>
   <div class="controller">
-    <div class="iconfont reduce" @click="handleSubtract" v-show="true">&#xe8b1;</div>
-    <p v-show="true">{{ count || 0 }}</p>
+    <div class="iconfont reduce" @click="handleSubtract" v-show="count">&#xe8b1;</div>
+    <p v-show="count">{{ count }}</p>
     <div class="iconfont add" @click="handleIncrease">&#xe728;</div>
   </div>
 </template>
 <script>
 import { reactive, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStore, mapState } from 'vuex'
+import { useStore } from 'vuex'
 
+// 添加/减少商品相关的逻辑
 function useCountEffect (product) {
   const route = useRoute()
   const store = useStore()
   const cartData = store.state.cartData
   const shopId = route.params.shopId
   const productId = product._id
-
+  // 商品数量
   const count = computed(() => cartData?.[shopId]?.[productId]?.count)
+  // 添加商品
   function handleIncrease () {
     store.commit('handleIncrease', {
       shopId, productId, product
     })
   }
+  // 减少商品
   function handleSubtract () {
-    console.log('subtract')
+    store.commit('handleSubtract', {
+      shopId, productId
+    })
   }
+
   return { count, handleIncrease, handleSubtract }
 }
 

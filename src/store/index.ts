@@ -20,6 +20,7 @@ export default createStore({
   },
   getters: {},
   mutations: {
+    // 增加商品
     handleIncrease (state, params) {
       const { shopId, productId, product } = params
       let shopInfo = state.cartData[shopId]
@@ -38,6 +39,14 @@ export default createStore({
       shopInfo[productId] = productInfo
       // 为cartData添加shopInfo
       state.cartData[shopId] = shopInfo
+    },
+    // 减少商品
+    handleSubtract (state, params) {
+      const { shopId, productId } = params
+      const cartData = state.cartData
+      const productInfo = cartData[shopId][productId]
+      productInfo.count -= 1
+      cartData[shopId][productId] = productInfo
     }
   },
   actions: {},
