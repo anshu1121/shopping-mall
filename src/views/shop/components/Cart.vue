@@ -18,36 +18,40 @@ import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+// 购物车相关逻辑
+function useCartEffect () {
+  const store = useStore()
+  const route = useRoute()
+  const shopId = route.params.shopId // 商店id string
+  const cartData = store.state.cartData // 购物车中的数据 object
+  // 购物车中的商品总数
+  const totalCount = computed(() => {
+    const productList = cartData[shopId] // 商品数据object
+    let count = 0
+    for (const key in productList) {
+      count += productList[key].count
+    }
+    return count
+  })
+
+  // 购物车中的商品总价
+  const totalPrice = computed(() => {
+    const productList = cartData[shopId] // 当前商店下商品的数据object
+    let price = 0
+    for (const key in productList) {
+      const productPrice = +productList[key].price
+      const productCocunt = +productList[key].count
+      price += productPrice * productCocunt
+    }
+    return price.toFixed(2)
+  })
+  return { totalCount, totalPrice }
+}
+
 export default {
   name: 'Cart',
   setup () {
-    const store = useStore()
-    const route = useRoute()
-    const shopId = route.params.shopId // 商店id string
-    // 购物车中的商品总数
-    const totalCount = computed(() => {
-      const cartData = store.state.cartData // 购物车中的数据 object
-      const productList = cartData[shopId] // 商品数据object
-      let count = 0
-      for (const product in productList) {
-        count += productList[product].count
-      }
-      return count
-    })
-
-    // 购物车中的商品总价
-    const totalPrice = computed(() => {
-      const cartData = store.state.cartData // 购物车中的数据 object
-      const productList = cartData[shopId] // 当前商店下商品的数据object
-      let price = 0
-      for (const product in productList) {
-        const productPrice = +productList[product].price
-        const productCocunt = +productList[product].count
-        price += productPrice * productCocunt
-      }
-      return price.toFixed(2)
-    })
-
+    const { totalCount, totalPrice } = useCartEffect()
     return { totalCount, totalPrice }
   }
 }
