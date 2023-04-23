@@ -106,7 +106,6 @@ export default {
     display: flex;
     flex-direction: row;
     padding: .12rem 0;
-    border-bottom: $border;
 
     img {
       width: 0.46rem;

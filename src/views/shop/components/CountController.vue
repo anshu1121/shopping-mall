@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, toRefs, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -14,11 +14,12 @@ import { useStore } from 'vuex'
 function useCountEffect (product) {
   const route = useRoute()
   const store = useStore()
-  const cartData = store.state.cartData
+  const { cartData } = reactive(store.state)
   const shopId = route.params.shopId
   const productId = product._id
   // 商品数量
   const count = computed(() => cartData?.[shopId]?.[productId]?.count)
+
   // 添加商品
   function handleIncrease () {
     store.commit('handleIncrease', {
