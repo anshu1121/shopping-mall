@@ -22,7 +22,7 @@
             <span class="price__origin">&yen;{{ product.oldPrice }}</span>
           </p>
         </div>
-        <CountController :product="product"  />
+        <CountController :product="product" :controStyle="controStyle"  />
       </div>
     </div>
   </div>
@@ -47,11 +47,17 @@ export default {
       // 切换category tab时，getProductList()方法中依赖的tab发生变化，自动执行
       getProductList()
     })
+    const controStyle = {
+      position: 'absolute',
+      right: 0,
+      bottom: '.1rem'
+    }
     return {
       categories, // 商品种类
       currentTab, // 当前选中的商品种类tab
       handleCategoryClick, // 商品种类tab点击事件
-      productList // 商品列表数据
+      productList, // 商品列表数据
+      controStyle
     }
   }
 }

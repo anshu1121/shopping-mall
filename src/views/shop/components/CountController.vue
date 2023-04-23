@@ -1,5 +1,5 @@
 <template>
-  <div class="controller">
+  <div class="controller" :style="controStyle">
     <div class="iconfont reduce" @click="handleSubtract" v-show="count">&#xe8b1;</div>
     <p v-show="count">{{ count }}</p>
     <div class="iconfont add" @click="handleIncrease">&#xe728;</div>
@@ -37,9 +37,9 @@ function useCountEffect (product) {
 
 export default {
   name: 'CountController',
-  props: ['product'],
+  props: ['product', 'controStyle'],
   setup (props) {
-    const product = reactive(props.product)
+    const { product } = reactive(props)
     const { count, handleIncrease, handleSubtract } = useCountEffect(product)
     return { count, handleIncrease, handleSubtract }
   }
@@ -47,9 +47,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .controller {
-  position: absolute;
-  right: 0;
-  bottom: .1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
