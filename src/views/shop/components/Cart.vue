@@ -1,5 +1,21 @@
 <template>
   <div class="cart">
+    <!-- 全选 -->
+    <div class="check-all" v-show="totalCount">
+      <div
+        :class="{
+          iconfont: true ,
+          'check-all__checked': isAllChecked
+        }"
+        @click="handleCheckAll"
+      >
+        &#xe656;
+      </div>
+      <div class="check-all__text">全选</div>
+      <div class="check-all__clear" @click="handleClearCart">清空购物车</div>
+    </div>
+
+    <!-- 商品 -->
     <div class="product">
       <div
         class="product__item"
@@ -28,6 +44,8 @@
         <CountController :product="product" />
       </div>
     </div>
+
+    <!-- 结算 -->
     <div class="settlement">
       <div class="iconfont settlement__count">
         &#xe6ca;
@@ -90,15 +108,39 @@ function useCartEffect () {
       shopId, productId
     })
   }
-  return { totalCount, totalPrice, products, handleCheck }
+
+  // 全选
+  function handleCheckAll () {
+    store.commit('checkAll', { shopId, isAllChecked: isAllChecked.value })
+  }
+
+  // 清空购物车
+  function handleClearCart () {
+    store.commit('clearCart', { shopId })
+  }
+
+  // 是否全选
+  const isAllChecked = computed(() => {
+    const productList = cartData[shopId] // 当前商店下商品数据object
+    let allChecked = true
+    for (const key in productList) {
+      if (!productList[key].checked) {
+        allChecked = false
+        break
+      }
+    }
+    return allChecked
+  })
+
+  return { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
 }
 
 export default {
   name: 'Cart',
   components: { CountController },
   setup () {
-    const { totalCount, totalPrice, products, handleCheck } = useCartEffect()
-    return { totalCount, totalPrice, products, handleCheck }
+    const { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked } = useCartEffect()
+    return { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
   }
 }
 </script>
@@ -116,7 +158,7 @@ export default {
 
 .product {
   flex: 1;
-  margin: 0 .16rem;
+  margin: 0 .18rem;
   overflow-y: auto;
 
   &__item {
@@ -127,8 +169,8 @@ export default {
     padding: .12rem 0;
     .iconfont {
       margin-right: .164rem;
-      font-size: .192rem;
-      color: #F1F1F1;
+      font-size: .19rem;
+      color: #999;
     }
     &__checked {
       color: #0091FF!important;
@@ -249,6 +291,27 @@ export default {
     color: #fff;
     font-size: .14rem;
     background-color: #4FB0F9;
+  }
+}
+.check-all {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: .52rem;
+  line-height: .52rem;
+  padding: 0 .18rem;
+  border-bottom: $border;
+  font-size: .14rem;
+  .iconfont {
+    margin-right: .08rem;
+    font-size: .19rem;
+    color: #999;
+  }
+  &__checked {
+    color: #0091FF!important;
+  }
+  &__text{
+    flex: 1;
   }
 }
 </style>

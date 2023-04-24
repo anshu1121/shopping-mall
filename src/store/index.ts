@@ -32,10 +32,11 @@ export default createStore({
       if (!productInfo) {
         productInfo = product
         productInfo.count = 0
-        productInfo.checked = true
       }
       // 商品数量+1
       productInfo.count += 1
+      // 商品被选中
+      productInfo.checked = true
       // 为shopInfo添加productInfo
       shopInfo[productId] = productInfo
       // 为cartData添加shopInfo
@@ -54,12 +55,29 @@ export default createStore({
       cartData[shopId][productId] = productInfo
     },
 
-    // check
+    // 单个商品check
     handleCheck (state, params) {
       console.log(params)
       const { shopId, productId } = params
       const productInfo = state.cartData[shopId][productId]
       productInfo.checked = !productInfo.checked
+    },
+
+    // 全选
+    checkAll (state, params) {
+      const { shopId, isAllChecked } = params
+      console.log(isAllChecked)
+      const shopInfo = state.cartData[shopId]
+      for (const key in shopInfo) {
+        shopInfo[key].checked = !isAllChecked
+      }
+      state.cartData[shopId] = shopInfo
+    },
+
+    // 清空购物车
+    clearCart (state, params) {
+      const { shopId } = params
+      delete state.cartData[shopId]
     }
   },
   actions: {},
