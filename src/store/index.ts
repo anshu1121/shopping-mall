@@ -35,7 +35,7 @@ export default createStore({
       }
       // 商品数量+1
       productInfo.count += 1
-      // 商品被选中
+      // 默认商品被选中
       productInfo.checked = true
       // 为shopInfo添加productInfo
       shopInfo[productId] = productInfo
@@ -57,7 +57,6 @@ export default createStore({
 
     // 单个商品check
     handleCheck (state, params) {
-      console.log(params)
       const { shopId, productId } = params
       const productInfo = state.cartData[shopId][productId]
       productInfo.checked = !productInfo.checked
@@ -66,7 +65,6 @@ export default createStore({
     // 全选
     checkAll (state, params) {
       const { shopId, isAllChecked } = params
-      console.log(isAllChecked)
       const shopInfo = state.cartData[shopId]
       for (const key in shopInfo) {
         shopInfo[key].checked = !isAllChecked

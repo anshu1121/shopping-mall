@@ -1,7 +1,11 @@
 <template>
+  <div class="mask"
+    v-show="totalCount && showProduct"
+    @click="toggleShowProduct"
+  />
   <div class="cart">
     <!-- 全选 -->
-    <div class="check-all" v-show="totalCount">
+    <div class="check-all" v-show="totalCount && showProduct">
       <div
         :class="{
           iconfont: true ,
@@ -16,7 +20,7 @@
     </div>
 
     <!-- 商品 -->
-    <div class="product">
+    <div class="product" v-show="totalCount && showProduct">
       <div
         class="product__item"
         v-for="product in products"
@@ -47,7 +51,7 @@
 
     <!-- 结算 -->
     <div class="settlement">
-      <div class="iconfont settlement__count">
+      <div class="iconfont settlement__count" @click="toggleShowProduct">
         &#xe6ca;
         <span v-show="totalCount">{{ totalCount }}</span>
       </div>
@@ -61,7 +65,7 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import CountController from './CountController'
 
@@ -135,12 +139,27 @@ function useCartEffect () {
   return { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
 }
 
+// 显示/隐藏购物车的逻辑
+function useToggleCartEffect (totalCount) {
+  const showProduct = ref(false)
+  function toggleShowProduct () {
+    showProduct.value = !showProduct.value
+  }
+  watch(totalCount, (newVal) => {
+    if (!newVal) {
+      showProduct.value = false
+    }
+  })
+  return { showProduct, toggleShowProduct }
+}
+
 export default {
   name: 'Cart',
   components: { CountController },
   setup () {
     const { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked } = useCartEffect()
-    return { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
+    const { showProduct, toggleShowProduct } = useToggleCartEffect(totalCount)
+    return { showProduct, toggleShowProduct, totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
   }
 }
 </script>
@@ -148,6 +167,14 @@ export default {
 @import '@/assets/variable.scss';
 @import '@/assets/minxins.scss';
 
+.mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba($color: #000, $alpha: .5);
+}
 .cart {
   position: absolute;
   left: 0;
