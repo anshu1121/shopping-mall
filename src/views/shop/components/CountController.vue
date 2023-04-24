@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed, toRefs, ref } from 'vue'
+import { reactive, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 

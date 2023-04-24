@@ -32,6 +32,7 @@ export default createStore({
       if (!productInfo) {
         productInfo = product
         productInfo.count = 0
+        productInfo.checked = true
       }
       // 商品数量+1
       productInfo.count += 1
@@ -51,6 +52,14 @@ export default createStore({
         return
       }
       cartData[shopId][productId] = productInfo
+    },
+
+    // check
+    handleCheck (state, params) {
+      console.log(params)
+      const { shopId, productId } = params
+      const productInfo = state.cartData[shopId][productId]
+      productInfo.checked = !productInfo.checked
     }
   },
   actions: {},

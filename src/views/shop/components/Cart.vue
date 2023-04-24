@@ -6,6 +6,15 @@
         v-for="product in products"
         :key="product._id"
       >
+        <div
+          :class="{
+            iconfont: true,
+            product__item__checked: product.checked
+          }"
+          @click="() => handleCheck(product._id)"
+        >
+          &#xe656;
+        </div>
         <img src="@/assets/imgs/ningmeng.png" alt="">
         <div class="product__item__detail">
           <p class="name">{{ product.name }}</p>
@@ -62,7 +71,9 @@ function useCartEffect () {
     for (const key in productList) {
       const productPrice = +productList[key].price
       const productCocunt = +productList[key].count
-      price += productPrice * productCocunt
+      if (productList[key].checked) {
+        price += productPrice * productCocunt
+      }
     }
     return price.toFixed(2)
   })
@@ -72,15 +83,22 @@ function useCartEffect () {
     const productList = cartData[shopId] || [] // 当前商店下商品的数据object
     return productList
   })
-  return { totalCount, totalPrice, products }
+
+  // check点击事件
+  function handleCheck (productId) {
+    store.commit('handleCheck', {
+      shopId, productId
+    })
+  }
+  return { totalCount, totalPrice, products, handleCheck }
 }
 
 export default {
   name: 'Cart',
   components: { CountController },
   setup () {
-    const { totalCount, totalPrice, products } = useCartEffect()
-    return { totalCount, totalPrice, products }
+    const { totalCount, totalPrice, products, handleCheck } = useCartEffect()
+    return { totalCount, totalPrice, products, handleCheck }
   }
 }
 </script>
@@ -105,8 +123,16 @@ export default {
     position: relative;
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: .12rem 0;
-
+    .iconfont {
+      margin-right: .164rem;
+      font-size: .192rem;
+      color: #F1F1F1;
+    }
+    &__checked {
+      color: #0091FF!important;
+    }
     img {
       width: 0.46rem;
       height: 0.46rem;
