@@ -59,7 +59,11 @@
         总计：<span>&yen;{{ totalPrice }}</span>
       </div>
       <div class="settlement__empty" v-show="!totalCount">购物车是空的</div>
-      <div class="settlement__pay">去结算</div>
+      <div class="settlement__pay">
+        <router-link to="/">
+          去结算
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -318,6 +322,10 @@ export default {
     color: #fff;
     font-size: .14rem;
     background-color: #4FB0F9;
+    a {
+      display: block;
+      color: #FFF;
+    }
   }
 }
 .check-all {
