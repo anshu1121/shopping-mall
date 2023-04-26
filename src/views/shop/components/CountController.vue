@@ -6,24 +6,24 @@
   </div>
 </template>
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, computed, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 // 添加/减少商品相关的逻辑
-function useCountEffect (product) {
+function useCountEffect (product, shopName) {
   const route = useRoute()
   const store = useStore()
   const { cartData } = reactive(store.state)
   const shopId = route.params.shopId
   const productId = product._id
   // 商品数量
-  const count = computed(() => cartData?.[shopId]?.[productId]?.count)
+  const count = computed(() => cartData?.[shopId]?.productData?.[productId]?.count)
 
   // 添加商品
   function handleIncrease () {
     store.commit('handleIncrease', {
-      shopId, productId, product
+      shopId, shopName, productId, product
     })
   }
   // 减少商品
@@ -41,7 +41,8 @@ export default {
   props: ['product', 'controStyle'],
   setup (props) {
     const { product } = reactive(props)
-    const { count, handleIncrease, handleSubtract } = useCountEffect(product)
+    const shopName = inject('shopName')
+    const { count, handleIncrease, handleSubtract } = useCountEffect(product, shopName.value)
     return { count, handleIncrease, handleSubtract }
   }
 }

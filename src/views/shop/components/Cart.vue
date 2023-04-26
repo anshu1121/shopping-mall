@@ -82,7 +82,7 @@ function useCartEffect () {
 
   // 总数 购物车中的商品总数
   const totalCount = computed(() => {
-    const productList = cartData[shopId] // 当前商店下商品数据object
+    const productList = cartData[shopId]?.productData // 当前商店下商品数据object
     let count = 0
     for (const key in productList) {
       count += productList[key].count
@@ -92,7 +92,7 @@ function useCartEffect () {
 
   // 总价 购物车中的商品总价
   const totalPrice = computed(() => {
-    const productList = cartData[shopId] // 当前商店下商品的数据object
+    const productList = cartData[shopId]?.productData // 当前商店下商品的数据object
     let price = 0
     for (const key in productList) {
       const productPrice = +productList[key].price
@@ -106,7 +106,7 @@ function useCartEffect () {
 
   // 购物车中的商品
   const products = computed(() => {
-    const productList = cartData[shopId] || [] // 当前商店下商品的数据object
+    const productList = cartData[shopId]?.productData || [] // 当前商店下商品的数据object
     return productList
   })
 
@@ -129,7 +129,7 @@ function useCartEffect () {
 
   // 是否全选
   const isAllChecked = computed(() => {
-    const productList = cartData[shopId] // 当前商店下商品数据object
+    const productList = cartData[shopId]?.productData // 当前商店下商品数据object
     let allChecked = true
     for (const key in productList) {
       if (!productList[key].checked) {
