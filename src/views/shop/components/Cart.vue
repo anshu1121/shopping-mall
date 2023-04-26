@@ -60,7 +60,7 @@
       </div>
       <div class="settlement__empty" v-show="!totalCount">购物车是空的</div>
       <div class="settlement__pay">
-        <router-link to="/">
+        <router-link to="/order">
           去结算
         </router-link>
       </div>
@@ -70,8 +70,9 @@
 <script>
 import { useStore } from 'vuex'
 import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import CountController from './CountController'
+import { toast } from '@/utils/common.js'
 
 // 购物车相关逻辑
 function useCartEffect () {
@@ -163,6 +164,15 @@ export default {
   setup () {
     const { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked } = useCartEffect()
     const { showProduct, toggleShowProduct } = useToggleCartEffect(totalCount)
+    onBeforeRouteLeave(() => {
+      const res = totalPrice.value > 0
+      if (res) {
+        return res
+      } else {
+        toast('还没有选择商品')
+        return false
+      }
+    })
     return { showProduct, toggleShowProduct, totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
   }
 }

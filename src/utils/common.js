@@ -3,7 +3,7 @@
  * @description 常用函数
  * @author anshu
  */
-
+// 防抖
 function debounce (fn, delay = 2) {
   if (typeof fn !== 'function') return fn
   let timer = null
@@ -20,4 +20,17 @@ function debounce (fn, delay = 2) {
   }
   return _debounce
 }
-export { debounce }
+
+// toast提示
+function toast (message, delay = 2000) {
+  // const toastDOM = /* html */`<div class="toast-dom">${message}</div>`
+  const toastDOM = document.createElement('div')
+  toastDOM.classList.add('toast-dom')
+  toastDOM.innerHTML = message
+  const body = document.body
+  body.appendChild(toastDOM)
+  setTimeout(() => {
+    body.removeChild(toastDOM)
+  }, delay)
+}
+export { debounce, toast }
