@@ -1,21 +1,30 @@
 <template>
   <div class="order">
-    <div class="order__back"><span class="iconfont">&#xe8b5;</span>确认订单</div>
-    <div class="order__address">
-      <div class="order__address__content">
+    <div class="top-bg"></div>
+    <div class="back"><span class="iconfont">&#xe8b5;</span>确认订单</div>
+    <div class="address">
+      <div class="address__content">
         <p class="text">收货地址</p>
         <p class="address">北京理工大学国防科技园2号楼10层</p>
         <p class="phone">张先生<span>18911024266</span></p>
       </div>
-      <div class="iconfont order__address__choose">
+      <div class="iconfont address__choose">
         &#xe8b5;
       </div>
     </div>
-    <div class="order__shop">
-      <div class="order__shop__name">
+    <div class="shop">
+      <div class="shop__name">
         商店名称
       </div>
-      <div class="order__shop__products">
+      <div class="shop__products">
+        <div class="product">
+          <img src="@/assets/imgs/ningmeng.png" alt="">
+          <div class="name">
+            <p>番茄250g/份</p>
+            <p>33.6<span>x</span>3</p>
+          </div>
+          <div class="price">99.9</div>
+        </div>
         <div class="product">
           <img src="@/assets/imgs/ningmeng.png" alt="">
           <div class="name">
@@ -25,6 +34,13 @@
           <div class="price">99.9</div>
         </div>
       </div>
+      <div class="shop__more">
+        共计3件/1.4kg<span class="iconfont">&#xe8b5;</span>
+      </div>
+    </div>
+    <div class="submit">
+      <div class="submit__price">实付金额<span>&yen;62</span></div>
+      <div class="submit__btn">提交订单</div>
     </div>
   </div>
 </template>
@@ -34,21 +50,39 @@
 @import '@/assets/variable.scss';
 
 .order{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   padding: 0 .18rem;
-  &__back{
+  background-color: #F5F5F5;
+  >div{
+    position: relative;
+  }
+  .top-bg{
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.59rem;
+    background-image: linear-gradient(0deg, rgba(0,145,255,0.00) 4%, #0091FF 50%);
+  }
+  .back{
     padding: .18rem 0;
     text-align: center;
     line-height: .2rem;
     overflow: hidden;
     font-size: .16rem;
+    color: #FFF;
     span{
       display: block;
       float: left;
       font-size: .21rem;
-      color: #000;
     }
   }
-  &__address{
+  .address{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -84,19 +118,23 @@
       transform: rotate(180deg);
     }
   }
-  &__shop{
+  .shop{
+    margin-top: .16rem;
     padding: .16rem;
     border-radius: .04rem;
+    background-color: #FFF;
     &__name{
       font-size: .16rem;
       line-height: .22rem;
     }
     &__products{
+      margin-top: .16rem;
       .product{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: .16rem;
         img{
           width: .46rem;
           height: .46rem;
@@ -125,6 +163,54 @@
           line-height: .14rem;
         }
       }
+    }
+    &__more{
+      height: .28rem;
+      line-height: .28rem;
+      text-align: center;
+      font-size: .14rem;
+      color: #999;
+      background-color: #F5F5F5;
+      span{
+        display: inline-block;
+        margin-left: .08rem;
+        font-size: .14rem;
+        line-height: normal;
+        vertical-align: text-top;
+        transform: rotate(270deg);
+        transform-origin: center center;
+      }
+    }
+  }
+  .submit{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: .49rem;
+    line-height: .49rem;
+    display: flex;
+    flex-direction: row;
+    background-color: #FFF;
+    font-size: .14rem;
+    &__price{
+      flex: 1;
+      padding-left: .24rem;
+      text-align: left;
+      span{
+        display: inline-block;
+        margin-left: .05rem;
+        color: #151515;
+        font-size: .16rem;
+        line-height: .2rem;
+      }
+    }
+    &__btn{
+      width: .98rem;
+      height: .49rem;
+      text-align: center;
+      color: #FFF;
+      background-color: #4FB0F9;
     }
   }
 }

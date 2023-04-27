@@ -23,7 +23,8 @@ function debounce (fn, delay = 2) {
 
 // toast提示
 function toast (message, delay = 2000) {
-  // const toastDOM = /* html */`<div class="toast-dom">${message}</div>`
+  const toast = document.getElementsByClassName('toast-dom')
+  if (toast?.length > 0) return
   const toastDOM = document.createElement('div')
   toastDOM.classList.add('toast-dom')
   toastDOM.innerHTML = message
