@@ -1,11 +1,11 @@
 <template>
   <div class="order">
-    <div class="top-bg"></div>
-    <div class="back"><span class="iconfont">&#xe8b5;</span>确认订单</div>
+    <div class="top-bg" />
+    <div class="back"><span class="iconfont" @click="goBack">&#xe8b5;</span>确认订单</div>
     <div class="address">
       <div class="address__content">
         <p class="text">收货地址</p>
-        <p class="address">北京理工大学国防科技园2号楼10层</p>
+        <p class="location">北京理工大学国防科技园2号楼10层</p>
         <p class="phone">张先生<span>18911024266</span></p>
       </div>
       <div class="iconfont address__choose">
@@ -34,7 +34,7 @@
           <div class="price">99.9</div>
         </div>
       </div>
-      <div class="shop__more">
+      <div class="shop__more" @click="showAllProducts">
         共计3件/1.4kg<span class="iconfont">&#xe8b5;</span>
       </div>
     </div>
@@ -45,6 +45,25 @@
   </div>
 </template>
 <script>
+import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import { useGoBackEffect } from '@/utils/common.js'
+
+export default {
+  name: 'Order',
+  setup () {
+    const router = useRouter()
+    const route = useRoute()
+    const { shopId } = route.params
+    const goBack = useGoBackEffect(router)
+    const store = useStore()
+    const cartData = store.state.cartData
+    function showAllProducts () {
+      console.log(shopId, cartData)
+    }
+    return { goBack, showAllProducts }
+  }
+}
 </script>
 <style lang="scss" scoped>
 @import '@/assets/variable.scss';
@@ -94,15 +113,18 @@
     &__content{
       .text{
         font-size: .16rem;
+        line-height: .22rem
       }
-      .address{
+      .location{
         margin-top: .14rem;
         font-size: .14rem;
+        line-height: .2rem;
       }
       .phone{
         margin-top: .06rem;
         font-size: .12rem;
         color: #666;
+        line-height: .17rem;
         span{
           display: inline-block;
           margin-left: .06rem;

@@ -3,6 +3,7 @@
  * @description 常用函数
  * @author anshu
  */
+
 // 防抖
 function debounce (fn, delay = 2) {
   if (typeof fn !== 'function') return fn
@@ -34,4 +35,13 @@ function toast (message, delay = 2000) {
     body.removeChild(toastDOM)
   }, delay)
 }
-export { debounce, toast }
+
+// 返回
+function useGoBackEffect (router) {
+  function goBack () {
+    router.back()
+  }
+  return goBack
+}
+
+export { debounce, toast, useGoBackEffect }

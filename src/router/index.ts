@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/order',
+    path: '/order/:shopId',
     name: 'order',
     component: Order
   }

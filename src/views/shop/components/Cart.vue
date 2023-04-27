@@ -59,10 +59,8 @@
         总计：<span>&yen;{{ totalPrice }}</span>
       </div>
       <div class="settlement__empty" v-show="!totalCount">购物车是空的</div>
-      <div class="settlement__pay">
-        <router-link to="/order">
-          去结算
-        </router-link>
+      <div class="settlement__pay" @click="toSettle">
+        去结算
       </div>
     </div>
   </div>
@@ -70,15 +68,13 @@
 <script>
 import { useStore } from 'vuex'
 import { computed, ref, watch } from 'vue'
-import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import CountController from './CountController'
 import { toast } from '@/utils/common.js'
 
 // 购物车相关逻辑
-function useCartEffect () {
+function useCartEffect (shopId) {
   const store = useStore()
-  const route = useRoute()
-  const shopId = route.params.shopId // 商店id string
   const cartData = store.state.cartData // 购物车中的数据 object
 
   // 总数 购物车中的商品总数
@@ -162,18 +158,23 @@ export default {
   name: 'Cart',
   components: { CountController },
   setup () {
-    const { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked } = useCartEffect()
+    const router = useRouter()
+    const route = useRoute()
+    const shopId = route.params.shopId // 商店id string
+    const { totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked } = useCartEffect(shopId)
     const { showProduct, toggleShowProduct } = useToggleCartEffect(totalCount)
-    onBeforeRouteLeave(() => {
+
+    // 去结算
+    function toSettle () {
       const res = totalPrice.value > 0
       if (res) {
-        return res
+        router.push({ name: 'order', params: { shopId } })
       } else {
         toast('还没有选择商品')
         return false
       }
-    })
-    return { showProduct, toggleShowProduct, totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
+    }
+    return { toSettle, showProduct, toggleShowProduct, totalCount, totalPrice, products, handleCheck, handleClearCart, handleCheckAll, isAllChecked }
   }
 }
 </script>
