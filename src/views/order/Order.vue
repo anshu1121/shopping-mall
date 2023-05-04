@@ -14,32 +14,26 @@
     </div>
     <div class="shop">
       <div class="shop__name">
-        商店名称
+        {{ shopName }}
       </div>
       <div class="shop__products">
-        <div class="product">
-          <img src="@/assets/imgs/ningmeng.png" alt="">
-          <div class="name">
-            <p>番茄250g/份</p>
-            <p>33.6<span>x</span>3</p>
+        <template v-for="(product, id, index) in productData" :key="id">
+          <div class="product" v-show="showMore(index)">
+            <img src="@/assets/imgs/ningmeng.png" alt="">
+            <div class="name">
+              <p>{{ product.name }}</p>
+              <p>{{ product.price }}<span>x</span>{{ product.count }}</p>
+            </div>
+            <div class="price">{{ product.price * product.count }}</div>
           </div>
-          <div class="price">99.9</div>
-        </div>
-        <div class="product">
-          <img src="@/assets/imgs/ningmeng.png" alt="">
-          <div class="name">
-            <p>番茄250g/份</p>
-            <p>33.6<span>x</span>3</p>
-          </div>
-          <div class="price">99.9</div>
-        </div>
+        </template>
       </div>
       <div class="shop__more" @click="showAllProducts">
-        共计3件/1.4kg<span class="iconfont">&#xe8b5;</span>
+        共计{{ totalProductType }}件<span class="iconfont">&#xe8b5;</span>
       </div>
     </div>
     <div class="submit">
-      <div class="submit__price">实付金额<span>&yen;62</span></div>
+      <div class="submit__price">实付金额<span>&yen;{{ totalPrice }}</span></div>
       <div class="submit__btn">提交订单</div>
     </div>
   </div>
@@ -47,6 +41,7 @@
 <script>
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { computed, ref } from 'vue'
 import { useGoBackEffect } from '@/utils/common.js'
 
 export default {
@@ -58,10 +53,31 @@ export default {
     const goBack = useGoBackEffect(router)
     const store = useStore()
     const cartData = store.state.cartData
-    function showAllProducts () {
-      console.log(shopId, cartData)
+    const shopInfo = cartData?.[shopId]
+    const shopName = shopInfo?.shopName
+    const productData = shopInfo?.productData
+    const totalProductType = computed(() => {
+      const productLen = Object.keys(productData)?.length
+      return productLen
+    })
+    const totalPrice = computed(() => {
+      let tp = 0
+      for (const item in productData) {
+        tp += productData[item].price * productData[item].count
+      }
+      return tp
+    })
+
+    const isShow = ref(false)
+
+    function showMore (index) {
+      return index < 2 || isShow.value
     }
-    return { goBack, showAllProducts }
+    // 展开全部商品
+    function showAllProducts () {
+      isShow.value = !isShow.value
+    }
+    return { goBack, showAllProducts, productData, shopName, totalProductType, totalPrice, showMore }
   }
 }
 </script>

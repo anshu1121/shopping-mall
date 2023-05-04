@@ -42,7 +42,7 @@ export default {
   setup (props) {
     const { product } = reactive(props)
     const shopName = inject('shopName')
-    const { count, handleIncrease, handleSubtract } = useCountEffect(product, shopName.value)
+    const { count, handleIncrease, handleSubtract } = useCountEffect(product, shopName)
     return { count, handleIncrease, handleSubtract }
   }
 }

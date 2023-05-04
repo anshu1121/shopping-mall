@@ -166,8 +166,7 @@ export default {
 
     // 去结算
     function toSettle () {
-      const res = totalPrice.value > 0
-      if (res) {
+      if (totalPrice.value > 0) {
         router.push({ name: 'order', params: { shopId } })
       } else {
         toast('还没有选择商品')
