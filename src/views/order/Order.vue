@@ -44,39 +44,51 @@ import { useStore } from 'vuex'
 import { computed, ref } from 'vue'
 import { useGoBackEffect } from '@/utils/common.js'
 
+// 购物车中数据逻辑
+function useOrderEffect () {
+  const route = useRoute()
+  const { shopId } = route.params
+  const store = useStore()
+  const cartData = store.state.cartData
+  const shopInfo = cartData?.[shopId]
+  const shopName = shopInfo?.shopName
+  const productData = shopInfo?.productData
+  // 购物车中的商品种类number
+  const totalProductType = computed(() => {
+    const productLen = Object.keys(productData)?.length
+    return productLen
+  })
+  // 购物车中的商品总价number
+  const totalPrice = computed(() => {
+    let tp = 0
+    for (const item in productData) {
+      tp += productData[item].price * productData[item].count
+    }
+    return tp
+  })
+  return { shopName, productData, totalProductType, totalPrice }
+}
+
+// 展示更多相关逻辑
+function useToggleEffect () {
+  const isShow = ref(false)
+  // 控制是否展示
+  function showMore (index) {
+    return index < 2 || isShow.value
+  }
+  // 展开全部商品
+  function showAllProducts () {
+    isShow.value = !isShow.value
+  }
+  return { showMore, showAllProducts }
+}
 export default {
   name: 'Order',
   setup () {
     const router = useRouter()
-    const route = useRoute()
-    const { shopId } = route.params
     const goBack = useGoBackEffect(router)
-    const store = useStore()
-    const cartData = store.state.cartData
-    const shopInfo = cartData?.[shopId]
-    const shopName = shopInfo?.shopName
-    const productData = shopInfo?.productData
-    const totalProductType = computed(() => {
-      const productLen = Object.keys(productData)?.length
-      return productLen
-    })
-    const totalPrice = computed(() => {
-      let tp = 0
-      for (const item in productData) {
-        tp += productData[item].price * productData[item].count
-      }
-      return tp
-    })
-
-    const isShow = ref(false)
-
-    function showMore (index) {
-      return index < 2 || isShow.value
-    }
-    // 展开全部商品
-    function showAllProducts () {
-      isShow.value = !isShow.value
-    }
+    const { productData, shopName, totalProductType, totalPrice } = useOrderEffect()
+    const { showAllProducts, showMore } = useToggleEffect()
     return { goBack, showAllProducts, productData, shopName, totalProductType, totalPrice, showMore }
   }
 }
