@@ -47,6 +47,7 @@ function useShopInfoEffect () {
       console.log(err)
     }
   }
+  getShopInfo()
   const { shopName, shopInfo } = toRefs(data)
   return { shopName, shopInfo, getShopInfo }
 }
@@ -56,9 +57,8 @@ export default {
   components: { SearchInput, ShopItem, ShopContent, Cart },
   setup () {
     const goBack = useGoBackEffect()
-    const { shopName, shopInfo, getShopInfo } = useShopInfoEffect()
+    const { shopName, shopInfo } = useShopInfoEffect()
     provide('shopName', shopName)
-    getShopInfo()
     return { shopInfo, goBack }
   }
 }

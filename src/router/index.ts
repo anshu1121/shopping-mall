@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Login from '@/views/login/Login.vue'
 import Shop from '@/views/shop/Shop.vue'
+import Order from '@/views/order/Order.vue'
 
 const routes: Array<RouteRecordRaw> = [
   // {
@@ -37,6 +38,11 @@ const routes: Array<RouteRecordRaw> = [
       const isLogin = localStorage.getItem('isLogin')
       isLogin ? next({ name: 'home' }) : next()
     }
+  },
+  {
+    path: '/order/:shopId',
+    name: 'order',
+    component: Order
   }
 ]
 
