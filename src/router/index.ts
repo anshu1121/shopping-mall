@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Login from '@/views/login/Login.vue'
 import Shop from '@/views/shop/Shop.vue'
 import Order from '@/views/order/Order.vue'
+import Cart from '@/views/cart/Cart.vue'
 
 const routes: Array<RouteRecordRaw> = [
   // {
@@ -31,6 +32,16 @@ const routes: Array<RouteRecordRaw> = [
     component: Shop
   },
   {
+    path: '/order/:shopId',
+    name: 'order',
+    component: Order
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: Cart
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login,
@@ -38,11 +49,6 @@ const routes: Array<RouteRecordRaw> = [
       const isLogin = localStorage.getItem('isLogin')
       isLogin ? next({ name: 'home' }) : next()
     }
-  },
-  {
-    path: '/order/:shopId',
-    name: 'order',
-    component: Order
   }
 ]
 
