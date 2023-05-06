@@ -17,6 +17,7 @@
   background-color: #F5F5F5;
   header{
     padding: .11rem 0;
+    margin: 0 -.18rem;
     line-height: .22rem;
     font-size: .16rem;
     text-align: center;
