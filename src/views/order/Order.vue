@@ -1,3 +1,4 @@
+<!-- 点击商店中结算按钮进入的订单页 -->
 <template>
   <div class="order">
     <div class="top-bg" />
