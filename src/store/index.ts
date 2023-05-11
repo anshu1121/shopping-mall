@@ -1,25 +1,35 @@
 import { createStore } from 'vuex'
 
+function setLocalCartData (state) {
+  const { cartData } = state
+  window.localStorage.localCartData = JSON.stringify(cartData)
+}
+function getLocalCartData () {
+  const localCartData = window.localStorage.localCartData ? JSON.parse(window.localStorage.localCartData) : {}
+  return localCartData
+}
 export default createStore({
   state: {
+    userName: '热心市民',
+    cartData: getLocalCartData()
     // 购物车中的数据结构
-    cartData: {
-      // // 第一层：商店，用商店shopId标识
-      // shopId: {
-      //   shopName: '商店名称',
-      //   productData: {
-      //     // 第三层：商品，用商品的productId标识
-      //     productId: {
-      //       count: 1,
-      //       _id: '1',
-      //       name: '番茄250g/份',
-      //       sales: 10,
-      //       price: 33.6,
-      //       oldPrice: 33.6
-      //     }
-      //   }
-      // }
-    }
+    // cartData: {
+    // // 第一层：商店，用商店shopId标识
+    // shopId: {
+    //   shopName: '商店名称',
+    //   productData: {
+    //     // 第三层：商品，用商品的productId标识
+    //     productId: {
+    //       count: 1,
+    //       _id: '1',
+    //       name: '番茄250g/份',
+    //       sales: 10,
+    //       price: 33.6,
+    //       oldPrice: 33.6
+    //     }
+    //   }
+    // }
+    // }
   },
   getters: {},
   mutations: {
@@ -48,6 +58,7 @@ export default createStore({
       shopInfo.productData = productData
       // 为cartData添加shopInfo
       state.cartData[shopId] = shopInfo
+      setLocalCartData(state)
     },
     // 减少商品
     handleSubtract (state, params) {
@@ -60,6 +71,7 @@ export default createStore({
         return
       }
       cartData[shopId].productData[productId] = productInfo
+      setLocalCartData(state)
     },
 
     // 单个商品check
@@ -67,6 +79,7 @@ export default createStore({
       const { shopId, productId } = params
       const productInfo = state.cartData[shopId]?.productData[productId]
       productInfo.checked = !productInfo.checked
+      setLocalCartData(state)
     },
 
     // 全选
@@ -77,12 +90,19 @@ export default createStore({
         productData[key].checked = !isAllChecked
       }
       state.cartData[shopId].productData = productData
+      setLocalCartData(state)
     },
 
     // 清空购物车
     clearCart (state, params) {
       const { shopId } = params
       delete state.cartData[shopId]
+      setLocalCartData(state)
+    },
+
+    // 修改用户名
+    changeUserName (state, val) {
+      state.userName = val
     }
   },
   actions: {},
