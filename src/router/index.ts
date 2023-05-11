@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/my',
     name: 'my',
-    component: () => import('@/views/home/Home.vue')
+    component: () => import('@/views/my/index.vue')
   },
   {
     path: '/login',
