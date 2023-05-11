@@ -11,17 +11,16 @@
             <p>{{ product.name }}</p>
             <p>{{ product.price }}<span>x</span>{{ product.count }}</p>
           </div>
-          <div class="price">{{ product.price * product.count }}</div>
+          <div class="price">{{ (product.price * product.count).toFixed(2) }}</div>
         </div>
       </template>
     </div>
-    <div class="shop__more" @click="showAllProducts" v-if="totalProductType > 2">
+    <div class="shop__more" @click.stop="showAllProducts" v-if="totalProductType > 2 && !isShow">
       共计{{ totalProductType }}件<span class="iconfont">&#xe8b5;</span>
     </div>
   </div>
 </template>
-<script>
-
+<script lang="ts">
 import { computed, ref } from 'vue'
 
 // 购物车中数据逻辑
@@ -45,7 +44,7 @@ function useToggleEffect () {
   function showAllProducts () {
     isShow.value = !isShow.value
   }
-  return { showMore, showAllProducts }
+  return { isShow, showMore, showAllProducts }
 }
 
 export default {
@@ -53,8 +52,8 @@ export default {
   props: ['shopName', 'productData'],
   setup (props) {
     const { totalProductType } = useOrderEffect(props.productData)
-    const { showAllProducts, showMore } = useToggleEffect()
-    return { showAllProducts, totalProductType, showMore }
+    const { isShow, showAllProducts, showMore } = useToggleEffect()
+    return { isShow, showAllProducts, totalProductType, showMore }
   }
 }
 </script>
@@ -68,6 +67,7 @@ export default {
 
   &__name {
     font-size: .16rem;
+    font-weight: bold;
     line-height: .22rem;
   }
 
