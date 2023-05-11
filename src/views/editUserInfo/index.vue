@@ -1,7 +1,9 @@
 <template>
+  <div></div>
   <div class="user">
     <input placeholder="请输入新昵称" v-model="userName" />
-    <button @click="changeUserName">提交</button>
+    <button @click="router.back()">返回</button>
+    <button class="submit" @click="changeUserName">提交</button>
   </div>
 </template>
 <script lang="ts" setup>
@@ -34,6 +36,7 @@ const changeUserName = () => {
     margin-top: .2rem;
   }
   input {
+    margin-bottom: .2rem;
     padding: .05rem .1rem;
     line-height: .2rem;
     border: 1px solid #C2C4CA;
@@ -41,11 +44,16 @@ const changeUserName = () => {
   }
   button {
     padding: .1rem 0;
-    background: #3A6FF3;
+    background: #FFF;
+    border: 1px solid #ccc;
     border-radius: .05rem;
-    border: none;
     text-align: center;
+    color: #000;
+  }
+  button.submit {
+    background: #3A6FF3;
     color: #FFF;
+    border: none;
   }
 }
 </style>
