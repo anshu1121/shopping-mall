@@ -1,11 +1,13 @@
 <template>
   <div class="my">
     <div class="my__bg"></div>
-    <div class="iconfont edit">&#xe607;</div>
+    <router-link to="/editUserInfo">
+      <div class="iconfont edit">&#xe607;</div>
+    </router-link>
     <div class="my__info">
       <div class="my__info__basic">
         <div class="user-avater"></div>
-        <p class="user-name">热心市民李先生</p>
+        <p class="user-name">{{ userName }}</p>
         <p class="user-id">ID：<span>1069643013</span></p>
         <hr />
         <div class="user-wallet">
@@ -52,7 +54,13 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useStore } from 'vuex'
+
+const store = useStore()
+const { userName } = store.state
+
+</script>
 <style lang="scss" scoped>
 .my {
   position: relative;

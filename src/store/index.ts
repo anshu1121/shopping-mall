@@ -10,6 +10,7 @@ function getLocalCartData () {
 }
 export default createStore({
   state: {
+    userName: '热心市民',
     cartData: getLocalCartData()
     // 购物车中的数据结构
     // cartData: {
@@ -97,6 +98,11 @@ export default createStore({
       const { shopId } = params
       delete state.cartData[shopId]
       setLocalCartData(state)
+    },
+
+    // 修改用户名
+    changeUserName (state, val) {
+      state.userName = val
     }
   },
   actions: {},
