@@ -57,6 +57,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/editUserInfo/index.vue')
   },
   {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/views/search/index.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login,

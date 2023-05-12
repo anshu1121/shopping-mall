@@ -1,15 +1,23 @@
 <template>
   <div class="search-input">
     <span class="iconfont">&#xe65c;</span>
-    <input type="text" :placeholder="placeholder" />
+    <input type="text" :placeholder="placeholder" @click="handleRouteTo" />
   </div>
 </template>
-<script lang="ts">
-export default {
-  name: 'SearchInput',
-  props: {
-    placeholder: String
+<script lang="ts" setup name="SearchInput">
+import { defineProps } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+defineProps({
+  placeholder: {
+    type: String,
+    default: ''
   }
+})
+
+const handleRouteTo = () => {
+  router.push({ name: 'search' })
 }
 </script>
 <style lang="scss" scoped>

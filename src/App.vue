@@ -47,7 +47,7 @@ export default {
   // 第一种，使用computed和this.$route.name
   computed: {
     isShow () {
-      const disabledTabRoutes = ['login', 'shop', 'order', 'editUserInfo']
+      const disabledTabRoutes = ['login', 'shop', 'order', 'editUserInfo', 'search']
       return !disabledTabRoutes.includes(this.$route.name)
     }
   }
