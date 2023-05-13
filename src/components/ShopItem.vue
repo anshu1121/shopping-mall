@@ -14,6 +14,17 @@
       <div class="item__content__preferential">
         {{ shopInfo?.preferential }}
       </div>
+      <div class="item__content__products" v-if="shopInfo.productData">
+        <template v-for="(product, index) of shopInfo.productData" :key="product._id">
+          <div class="product" v-if="index < 3">
+            <img src="@/assets/imgs/ningmeng.png" />
+            <p class="name">{{ product.name }}</p>
+            <p class="price">
+              {{ product.price }}<span>&yen;{{ product.oldPrice }}</span>
+            </p>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +42,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/assets/variable.scss';
+@import '@/assets/minxins.scss';
   .item {
     display: flex;
     flex-direction: row;
@@ -60,6 +72,35 @@ export default {
       }
       &__preferential{
         color: $redColor;
+      }
+      &__products {
+        display: flex;
+        flex-direction: row;
+        .product {
+          width: .76rem;
+          margin-right: .16rem;
+          img {
+            width: .76rem;
+            height: .76rem;
+          }
+          .name {
+            font-size: .12rem;
+            line-height: .17rem;
+            @include elipsis
+          }
+          .price {
+            transform: scale(.5);
+            transform-origin: left center;
+            font-size: .2rem;
+            line-height: .14rem;
+            color: #E93B3B;
+            span {
+              margin-left: .04rem;
+              color: #999999;
+              text-decoration: line-through;
+            }
+          }
+        }
       }
     }
     &__content-borderd{

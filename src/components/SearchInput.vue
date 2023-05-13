@@ -1,24 +1,46 @@
 <template>
   <div class="search-input">
     <span class="iconfont">&#xe65c;</span>
-    <input type="text" :placeholder="placeholder" @click="handleRouteTo" />
+    <input
+      ref="inputRef"
+      type="text"
+      v-model="searchContent"
+      :placeholder="placeholder"
+      @keyup.enter="handleSearch"
+      @focus="handleFocus"
+      @blur="handleBlur"
+    />
   </div>
 </template>
 <script lang="ts" setup name="SearchInput">
-import { defineProps } from 'vue'
+import { onMounted, ref, unref } from 'vue'
 import { useRouter } from 'vue-router'
+const route = useRouter()
 
-const router = useRouter()
-defineProps({
-  placeholder: {
-    type: String,
-    default: ''
-  }
+const props = defineProps({
+  placeholder: String
+})
+const emits = defineEmits(['update:focused', 'onSearch'])
+
+const inputRef = ref()
+const searchContent = ref()
+
+const handleFocus = () => {
+  emits('update:focused', true)
+}
+const handleBlur = () => {
+  emits('update:focused', false)
+}
+
+const handleSearch = () => {
+  emits('onSearch', unref(searchContent))
+}
+
+onMounted(() => {
+  const currentRouteName = route.currentRoute.value.name
+  if (currentRouteName === 'search') unref(inputRef).focus()
 })
 
-const handleRouteTo = () => {
-  router.push({ name: 'search' })
-}
 </script>
 <style lang="scss" scoped>
 .search-input {
@@ -39,6 +61,7 @@ const handleRouteTo = () => {
   input {
     flex: 1;
     margin-left: 0.12rem;
+    padding: 0;
     font-size: 0.14rem;
     border: none;
     background: none;
