@@ -16,18 +16,28 @@
     <ShopOfCart :shopName="shopName" :productData="productData" />
     <div class="submit">
       <div class="submit__price">实付金额<span>&yen;{{ totalPrice }}</span></div>
-      <div class="submit__btn">提交订单</div>
+      <div class="submit__btn" @click="handleSubmit">提交订单</div>
+    </div>
+    <div class="mask" v-if="isShowMask">
+      <div class="confirm-box">
+        <p>确认支付？</p>
+        <span>请尽快完成支付，否则将被取消</span>
+        <div class="btn-box">
+          <div class="cancel" @click="isShowMask = false">取消订单</div>
+          <div class="confirm" @click="handleConfirm">确认支付</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useGoBackEffect, toast } from '@/utils/common.js'
 import ShopOfCart from '@/components/ShopOfCart.vue'
-import { useGoBackEffect } from '@/utils/common.js'
 
-function useShopEffect () {
+function useOrderEffect () {
   const route = useRoute()
   const { shopId } = route.params
   const store = useStore()
@@ -44,6 +54,9 @@ function useShopEffect () {
     }
     return tp
   })
+  return { shopName, shopId, productData, totalProductType, totalPrice }
+}
+
 
   return { shopName, productData, totalPrice }
 }
@@ -51,10 +64,24 @@ export default {
   name: 'Order',
   components: { ShopOfCart },
   setup () {
+    const store = useStore()
+    const isShowMask = ref(false)
     const router = useRouter()
     const goBack = useGoBackEffect(router)
-    const { shopName, productData, totalPrice } = useShopEffect()
-    return { goBack, shopName, productData, totalPrice }
+    const { productData, shopName, shopId, totalProductType, totalPrice } = useOrderEffect()
+    const { showAllProducts, showMore } = useToggleEffect()
+    const handleSubmit = () => {
+      console.log('submit')
+      isShowMask.value = true
+    }
+    const handleConfirm = () => {
+      toast('支付成功')
+      store.commit('clearCart', { shopId })
+      setTimeout(() => {
+        router.push({ name: 'home' })
+      }, 500)
+    }
+    return { isShowMask, goBack, showAllProducts, productData, shopName, totalProductType, totalPrice, showMore, handleSubmit, handleConfirm }
   }
 }
 </script>
@@ -252,6 +279,54 @@ export default {
       text-align: center;
       color: #FFF;
       background-color: #4FB0F9;
+    }
+  }
+  .mask{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba($color: #000, $alpha: .5);
+  }
+  .confirm-box{
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    border-radius: 4px;
+    padding: .24rem .52rem;
+    text-align: center;
+    &>p{
+      font-size: .18rem;
+      line-height: .25rem;
+    }
+    &>span{
+      margin-top: .08rem;
+      font-size: .14rem;
+      color: #666;
+    }
+    .btn-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: .24rem;
+      &>div {
+        padding: .06rem .12rem;
+        border-radius: .16rem;
+        border: 1px solid #4FB0F9;
+        line-height: .2rem;
+        font-size: .14rem;
+      }
+      .cancel {
+        color: #4FB0F9;
+      }
+      .confirm {
+        background-color: #4FB0F9;
+        color: #FFF;
+      }
     }
   }
 }
