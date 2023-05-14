@@ -6,6 +6,9 @@ body{
   font-size: .12rem;
   color: #333;
 }
+html,body{
+  height: 100%;
+}
 p{
   margin: 0;
   padding: 0;

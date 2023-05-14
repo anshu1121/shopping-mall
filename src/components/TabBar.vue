@@ -1,49 +1,37 @@
 <template>
   <div class="docker">
     <div
-      v-for="(tab, index) in tabList"
+      v-for="tab in tabList"
       :key="tab.id"
       :class="{
         'docker__item': true,
-        'docker__item--active': index === 0 && true
+        'docker__item--active': tab.id === currentTab
       }"
      >
-      <router-link to="/">
-        <div class="iconfont" v-html="tab.icon"></div>
+      <div @click="routeTo(tab.id)">
+        <div class="iconfont" v-html="tab.icon" />
         <div class="title">{{ tab.text }}</div>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+function useRouteEffect (emit) {
+  const router = useRouter()
+  function routeTo (tabId) {
+    emit('update:currentTab', tabId)
+    router.push({ name: tabId })
+  }
+  return routeTo
+}
 export default {
   name: 'TabBar',
-  setup () {
-    const tabList = ref([
-      {
-        icon: '&#xe674;',
-        text: '首页',
-        id: '/'
-      },
-      {
-        icon: '&#xe600;',
-        text: '购物车',
-        id: 'cart'
-      },
-      {
-        icon: '&#xe601;',
-        text: '订单',
-        id: 'order'
-      },
-      {
-        icon: '&#xe604;',
-        text: '我的',
-        id: 'my'
-      }
-    ])
-    return { tabList }
+  props: ['tabList', 'currentTab'],
+  setup (props, { emit }) {
+    const routeTo = useRouteEffect(emit)
+    return { routeTo }
   }
 }
 </script>
