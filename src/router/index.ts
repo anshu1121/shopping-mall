@@ -1,8 +1,10 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Login from '@/views/login/Login.vue'
-import Shop from '@/views/shop/Shop.vue'
-import Order from '@/views/order/Order.vue'
+import Home from '@/views/home/Home.vue'
 import Cart from '@/views/cart/Cart.vue'
+import MyOrder from '@/views/myOrder/index.vue'
+import My from '@/views/my/index.vue'
+import Search from '@/views/search/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   // {
@@ -24,17 +26,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/home',
     name: 'home',
-    component: () => import('@/views/home/Home.vue')
+    component: Home
   },
   {
     path: '/shop/:shopId',
     name: 'shop',
-    component: Shop
+    component: () => import('@/views/shop/Shop.vue')
   },
   {
     path: '/order/:shopId',
     name: 'order',
-    component: Order
+    component: () => import('@/views/order/Order.vue')
   },
   {
     path: '/cart',
@@ -44,12 +46,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/myOrder',
     name: 'myOrder',
-    component: () => import('@/views/myOrder/index.vue')
+    component: MyOrder
   },
   {
     path: '/my',
     name: 'my',
-    component: () => import('@/views/my/index.vue')
+    component: My
   },
   {
     path: '/editUserInfo',
@@ -59,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/search',
     name: 'search',
-    component: () => import('@/views/search/index.vue')
+    component: Search
   },
   {
     path: '/login',
