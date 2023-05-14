@@ -49,7 +49,7 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding: 0 .4rem;
   text-align: center;
@@ -57,6 +57,7 @@ export default {
   img{
     width: .66rem;
     height: .66rem;
+    margin-top: 1rem;
     margin-bottom: .4rem;
   }
   input{
