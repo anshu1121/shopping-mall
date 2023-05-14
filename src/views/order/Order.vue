@@ -54,12 +54,9 @@ function useOrderEffect () {
     }
     return tp
   })
-  return { shopName, shopId, productData, totalProductType, totalPrice }
+  return { shopName, shopId, productData, totalPrice }
 }
 
-
-  return { shopName, productData, totalPrice }
-}
 export default {
   name: 'Order',
   components: { ShopOfCart },
@@ -69,7 +66,6 @@ export default {
     const router = useRouter()
     const goBack = useGoBackEffect(router)
     const { productData, shopName, shopId, totalProductType, totalPrice } = useOrderEffect()
-    const { showAllProducts, showMore } = useToggleEffect()
     const handleSubmit = () => {
       console.log('submit')
       isShowMask.value = true
@@ -81,7 +77,7 @@ export default {
         router.push({ name: 'home' })
       }, 500)
     }
-    return { isShowMask, goBack, showAllProducts, productData, shopName, totalProductType, totalPrice, showMore, handleSubmit, handleConfirm }
+    return { isShowMask, goBack, productData, shopName, totalProductType, totalPrice, handleSubmit, handleConfirm }
   }
 }
 </script>
