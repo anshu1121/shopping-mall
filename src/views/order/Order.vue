@@ -73,7 +73,6 @@ export default {
       toast('支付成功')
       store.commit('addToOrderData', { shopId })
       setTimeout(() => {
-        console.log(store.state)
         router.push({ name: 'myOrder' })
       }, 500)
     }

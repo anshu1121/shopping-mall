@@ -8,6 +8,19 @@ function getLocalCartData () {
   const localCartData = window.localStorage.localCartData ? JSON.parse(window.localStorage.localCartData) : {}
   return localCartData
 }
+
+function setLocalOrderData (state) {
+  const { orderData } = state
+  window.localStorage.localOrderData = JSON.stringify(orderData)
+}
+function getLocalOrderData () {
+  let localOrderData = {}
+  if (window.localStorage.localOrderData) {
+    localOrderData = JSON.parse(window.localStorage?.localOrderData)
+  }
+  return localOrderData
+}
+
 export default createStore({
   state: {
     userName: '热心市民',
@@ -30,7 +43,7 @@ export default createStore({
     //   }
     // }
     // }
-    orderData: {} // 和购物车数据结构一致
+    orderData: getLocalOrderData() // 和购物车数据结构一致
   },
   getters: {},
   mutations: {
@@ -69,9 +82,9 @@ export default createStore({
       productInfo.count -= 1
       if (productInfo.count === 0) {
         delete cartData[shopId]?.productData[productId]
-        return
+      } else {
+        cartData[shopId].productData[productId] = productInfo
       }
-      cartData[shopId].productData[productId] = productInfo
       setLocalCartData(state)
     },
 
@@ -109,9 +122,10 @@ export default createStore({
     // 付款后加入到订单列表数据
     addToOrderData (state, params) {
       const { shopId } = params
+      console.log(state.orderData)
       state.orderData[shopId] = state.cartData[shopId]
       delete state.cartData[shopId]
-      setLocalCartData(state)
+      setLocalOrderData(state)
     }
   },
   actions: {},
