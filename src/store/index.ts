@@ -11,7 +11,7 @@ function getLocalCartData () {
 export default createStore({
   state: {
     userName: '热心市民',
-    cartData: getLocalCartData()
+    cartData: getLocalCartData(),
     // 购物车中的数据结构
     // cartData: {
     // // 第一层：商店，用商店shopId标识
@@ -30,6 +30,7 @@ export default createStore({
     //   }
     // }
     // }
+    orderData: {} // 和购物车数据结构一致
   },
   getters: {},
   mutations: {
@@ -103,6 +104,14 @@ export default createStore({
     // 修改用户名
     changeUserName (state, val) {
       state.userName = val
+    },
+
+    // 付款后加入到订单列表数据
+    addToOrderData (state, params) {
+      const { shopId } = params
+      state.orderData[shopId] = state.cartData[shopId]
+      delete state.cartData[shopId]
+      setLocalCartData(state)
     }
   },
   actions: {},

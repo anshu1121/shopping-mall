@@ -65,19 +65,19 @@ export default {
     const isShowMask = ref(false)
     const router = useRouter()
     const goBack = useGoBackEffect(router)
-    const { productData, shopName, shopId, totalProductType, totalPrice } = useOrderEffect()
+    const { productData, shopName, shopId, totalPrice } = useOrderEffect()
     const handleSubmit = () => {
-      console.log('submit')
       isShowMask.value = true
     }
     const handleConfirm = () => {
       toast('支付成功')
-      store.commit('clearCart', { shopId })
+      store.commit('addToOrderData', { shopId })
       setTimeout(() => {
-        router.push({ name: 'home' })
+        console.log(store.state)
+        router.push({ name: 'myOrder' })
       }, 500)
     }
-    return { isShowMask, goBack, productData, shopName, totalProductType, totalPrice, handleSubmit, handleConfirm }
+    return { isShowMask, goBack, productData, shopName, totalPrice, handleSubmit, handleConfirm }
   }
 }
 </script>
