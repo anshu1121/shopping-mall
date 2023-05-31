@@ -30,7 +30,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script>
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed, ref } from 'vue'
