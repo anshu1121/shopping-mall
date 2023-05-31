@@ -10,8 +10,8 @@ function getLocalCartData () {
 }
 export default createStore({
   state: {
-    userName: '热心市民',
-    cartData: getLocalCartData(),
+    userName: '热心市民', // 用户名
+    cartData: getLocalCartData()
     // 购物车中的数据结构
     // cartData: {
     // // 第一层：商店，用商店shopId标识

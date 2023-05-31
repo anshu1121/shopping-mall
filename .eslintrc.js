@@ -1,7 +1,10 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    // The Follow config only works with eslint-plugin-vue v8.0.0+
+    // 解决vue3.2以后不手动导入defineProps、defineEmits、defineExpose等报错的问题
+    'vue/setup-compiler-macros': true
   },
   extends: [
     'plugin:vue/vue3-essential',

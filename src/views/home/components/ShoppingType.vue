@@ -6,7 +6,10 @@
     <span class="iconfont">&#xe64a;</span>
   </div>
   <!-- 搜索框 -->
-  <SearchInput :placeholder="'山姆会员商店优惠商品'" />
+  <SearchInput
+    :placeholder="'山姆会员商店优惠商品'"
+    @click="handleRouteTo"
+  />
   <!-- banner -->
   <div class="banner">
     <img src="@/assets/imgs/banner.jpg" alt="banner" />
@@ -56,11 +59,13 @@
   </div>
   <div class="gap"></div>
 </template>
-<script lang="ts">
-import SearchInput from '@/components/SearchInput.vue'
+<script lang="ts" setup>
+import { useRouter } from 'vue-router'
 
-export default {
-  components: { SearchInput }
+const router = useRouter()
+
+const handleRouteTo = () => {
+  router.push({ name: 'search' })
 }
 </script>
 <style lang="scss" scoped>
