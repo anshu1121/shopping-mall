@@ -30,7 +30,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script>
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed, ref } from 'vue'
@@ -73,7 +73,6 @@ export default {
       toast('支付成功')
       store.commit('addToOrderData', { shopId })
       setTimeout(() => {
-        console.log(store.state)
         router.push({ name: 'myOrder' })
       }, 500)
     }

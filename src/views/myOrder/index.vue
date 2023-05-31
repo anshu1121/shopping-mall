@@ -3,16 +3,15 @@
     我的订单
   </header>
   <div class="my-order">
-    <div class="shop">
+    <div class="shop" v-for="(shop, key) in orderData" :key="key">
       <div class="shop__title">
-        沃尔玛<span class="order-status">已取消</span>
+        {{ shop.shopName }}<span class="order-status">已取消</span>
       </div>
       <div class="shop__product">
         <div class="shop__product__img">
-          <img src="@/assets/imgs/ningmeng.png" />
-          <img src="@/assets/imgs/ningmeng.png" />
-          <img src="@/assets/imgs/ningmeng.png" />
-          <img src="@/assets/imgs/ningmeng.png" />
+          <template v-for="product in shop.productData" :key="product._id">
+            <img src="@/assets/imgs/ningmeng.png" />
+          </template>
         </div>
         <div class="shop__product__data">
           <p>&yen;66.00</p>
@@ -21,27 +20,13 @@
       </div>
     </div>
 
-    <div class="shop">
-      <div class="shop__title">
-        沃尔玛<span class="order-status">已取消</span>
-      </div>
-      <div class="shop__product">
-        <div class="shop__product__img">
-          <img src="@/assets/imgs/ningmeng.png" />
-          <img src="@/assets/imgs/ningmeng.png" />
-          <img src="@/assets/imgs/ningmeng.png" />
-          <img src="@/assets/imgs/ningmeng.png" />
-        </div>
-        <div class="shop__product__data">
-          <p>&yen;66.00</p>
-          <p>共<span>4</span>件</p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script lang="ts" setup>
+import { useStore } from 'vuex'
 
+const store = useStore()
+const { orderData } = store.state
 </script>
 <style lang="scss" scoped>
 header {
